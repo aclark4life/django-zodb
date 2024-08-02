@@ -126,9 +126,9 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         return self.connection.root()
 
     def close(self):
-        if self.zodb_conn is not None:
-            self.zodb_conn.close()
-            self.zodb_conn = None
+        if self.connection is not None:
+            self.connection.close()
+            self.connection = None
 
     def _commit(self):
         transaction.commit()
