@@ -14,6 +14,7 @@ from django.db.backends.base.creation import BaseDatabaseCreation
 from django.db.backends.base.introspection import BaseDatabaseIntrospection
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.db.backends.dummy.features import DummyDatabaseFeatures
+from ZODB import FileStorage, DB
 
 # from .wrapper import DatabaseWrapper
 
@@ -113,8 +114,9 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         }
 
     def get_new_connection(self, conn_params):
-        self.zodb_conn = ZODBConnection(conn_params['path'])
-        return self.zodb_conn.connect()
+        storage = FileStorage.FileStorage('Data.fs')
+        db = DB(storage)
+        return db.open()
 
     def init_connection_state(self):
         pass
@@ -168,11 +170,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
             flags = self.operation_flags
             self.operation_flags = {"save": flags, "delete": flags, "update": flags}
         
-        self.connection = MongoClient(
-            host=settings_dict["HOST"] or None,
-            port=int(settings_dict["PORT"] or 27017),
-            **options,
-        )
+        self.connection = self.get_new_connection({})
+
         db_name = settings_dict["NAME"]
         if db_name:
             self.database = self.connection[db_name]
