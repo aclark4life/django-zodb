@@ -77,6 +77,8 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
 
 
 class DatabaseWrapper(BaseDatabaseWrapper):
+    operators = {}
+
     vendor = 'zodb'
     display_name = 'ZODB'
 
