@@ -6,3 +6,9 @@ requires = ["setuptools"]
 name = "django-zodb"
 dependencies = ["zodb"]
 dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["django_zodb"]
+
+[tool.setuptools.dynamic]
+version = {attr = "django_zodb.__version__"}
