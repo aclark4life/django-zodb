@@ -50,12 +50,43 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
     get_indexes = complain
 
 
+# class DatabaseWrapper(BaseDatabaseWrapper):
+#     operators = {}
+#     # Override the base class implementations with null
+#     # implementations. Anything that tries to actually
+#     # do something raises complain; anything that tries
+#     # to rollback or undo something raises ignore.
+#     _cursor = complain
+#     ensure_connection = complain
+#     _commit = complain
+#     _rollback = ignore
+#     _close = ignore
+#     _savepoint = ignore
+#     _savepoint_commit = complain
+#     _savepoint_rollback = ignore
+#     _set_autocommit = complain
+#     # Classes instantiated in __init__().
+#     client_class = DatabaseClient
+#     creation_class = DatabaseCreation
+#     features_class = DummyDatabaseFeatures
+#     introspection_class = DatabaseIntrospection
+#     ops_class = DatabaseOperations
+# 
+#     def is_usable(self):
+#         return True
+
+
 class DatabaseWrapper(BaseDatabaseWrapper):
-    operators = {}
-    # Override the base class implementations with null
-    # implementations. Anything that tries to actually
-    # do something raises complain; anything that tries
-    # to rollback or undo something raises ignore.
+    vendor = 'zodb'
+    display_name = 'ZODB'
+
+    # SchemaEditorClass = DatabaseSchemaEditor
+    client_class = DatabaseClient
+    introspection_class = DatabaseIntrospection
+    # features_class = DatabaseFeatures
+    features_class = DummyDatabaseFeatures
+    ops_class = DatabaseOperations
+
     _cursor = complain
     ensure_connection = complain
     _commit = complain
@@ -68,9 +99,41 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     # Classes instantiated in __init__().
     client_class = DatabaseClient
     creation_class = DatabaseCreation
-    features_class = DummyDatabaseFeatures
-    introspection_class = DatabaseIntrospection
-    ops_class = DatabaseOperations
 
-    def is_usable(self):
-        return True
+    def get_connection_params(self):
+        return {
+            'path': self.settings_dict.get('NAME'),
+        }
+
+    def get_new_connection(self, conn_params):
+        self.zodb_conn = ZODBConnection(conn_params['path'])
+        return self.zodb_conn.connect()
+
+    def init_connection_state(self):
+        pass
+
+    def create_cursor(self, name=None):
+        return self.connection.root()
+
+    def close(self):
+        if self.zodb_conn is not None:
+            self.zodb_conn.close()
+            self.zodb_conn = None
+
+    def _commit(self):
+        transaction.commit()
+
+    def _rollback(self):
+        transaction.abort()
+
+    def _savepoint(self, sid):
+        return transaction.savepoint()
+
+    def _savepoint_rollback(self, sid):
+        sid.rollback()
+
+    def _savepoint_commit(self, sid):
+        sid.commit()
+
+    def _set_autocommit(self, autocommit):
+        pass
