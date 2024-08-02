@@ -14,6 +14,7 @@ from django.db.backends.base.creation import BaseDatabaseCreation
 from django.db.backends.base.introspection import BaseDatabaseIntrospection
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.db.backends.dummy.features import DummyDatabaseFeatures
+from django.db.backends.signals import connection_created
 from ZODB import FileStorage, DB
 
 # from .wrapper import DatabaseWrapper
