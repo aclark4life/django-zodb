@@ -102,6 +102,11 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     client_class = DatabaseClient
     creation_class = DatabaseCreation
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.connected = False
+        del self.connection
+
     def get_connection_params(self):
         return {
             'path': self.settings_dict.get('NAME'),
