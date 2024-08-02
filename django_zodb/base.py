@@ -139,3 +139,44 @@ class DatabaseWrapper(BaseDatabaseWrapper):
 
     def _set_autocommit(self, autocommit):
         pass
+
+    # Via https://github.com/aclark4life/django-mongodb
+    def __getattr__(self, attr):
+        """
+        Connect to the database the first time `connection` or `database` are
+        accessed.
+        """
+        if attr in ["connection", "database"]:
+            assert not self.connected
+            self._connect()
+            return getattr(self, attr)
+        raise AttributeError(attr)
+
+    def _connect(self):
+        settings_dict = self.settings_dict
+        
+        options = settings_dict["OPTIONS"]
+        # TODO: review and document OPERATIONS: https://github.com/mongodb-labs/django-mongodb/issues/6
+        self.operation_flags = options.pop("OPERATIONS", {})
+        if not any(k in ["save", "delete", "update"] for k in self.operation_flags):
+            # Flags apply to all operations.
+            flags = self.operation_flags
+            self.operation_flags = {"save": flags, "delete": flags, "update": flags}
+        
+        self.connection = MongoClient(
+            host=settings_dict["HOST"] or None,
+            port=int(settings_dict["PORT"] or 27017),
+            **options,
+        )
+        db_name = settings_dict["NAME"]
+        if db_name:
+            self.database = self.connection[db_name]
+        
+        user = settings_dict["USER"]
+        password = settings_dict["PASSWORD"]
+        if user and password and not self.database.authenticate(user, password):
+            raise ImproperlyConfigured("Invalid username or password.")
+
+        self.connected = True
+        connection_created.send(sender=self.__class__, connection=self)
+
