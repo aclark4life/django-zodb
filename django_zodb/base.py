@@ -99,7 +99,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     _savepoint = ignore
     _savepoint_commit = complain
     _savepoint_rollback = ignore
-    _set_autocommit = complain
+    # _set_autocommit = complain
     # Classes instantiated in __init__().
     client_class = DatabaseClient
     creation_class = DatabaseCreation
@@ -145,8 +145,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     def _savepoint_commit(self, sid):
         sid.commit()
 
-    def _set_autocommit(self, autocommit):
-        pass
+    # def _set_autocommit(self, autocommit):
+    #     pass
 
     # Via https://github.com/aclark4life/django-mongodb
     def __getattr__(self, attr):
