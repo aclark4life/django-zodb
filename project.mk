@@ -1,1 +1,1 @@
-PROJECT_NAME :- django-zodb
+PROJECT_NAME := django-zodb
