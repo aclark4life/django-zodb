@@ -17,6 +17,9 @@ from django.db import (
     NotSupportedError,
 )
 
+from .instrospection import DatabaseIntrospection
+
+
 class MockCursor:
     def execute(self, sql, params=None):
         pass
@@ -42,13 +45,6 @@ class DatabaseClient(BaseDatabaseClient):
 
 class DatabaseCreation(BaseDatabaseCreation):
     pass
-
-class DatabaseIntrospection(BaseDatabaseIntrospection):
-    def get_table_list(self, cursor):
-        # Implement logic to retrieve the list of tables from ZODB
-        # For now, return an empty list or a mock list of tables
-        print("get_table_list called")
-        return ["table1", "table2"]  # Mock list of tables
 
 class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
     def create_model(self, model):
