@@ -17,8 +17,6 @@ from django.db.backends.dummy.features import DummyDatabaseFeatures
 from django.db.backends.signals import connection_created
 from ZODB import FileStorage, DB
 
-# from .wrapper import DatabaseWrapper
-
 
 def complain(*args, **kwargs):
     raise ImproperlyConfigured(
@@ -30,6 +28,16 @@ def complain(*args, **kwargs):
 
 def ignore(*args, **kwargs):
     pass
+
+
+class Cursor:
+    """A "nodb" cursor that does nothing except work on a context manager."""
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exception_type, exception_value, exception_traceback):
+        pass
 
 
 class DatabaseOperations(BaseDatabaseOperations):
@@ -46,10 +54,11 @@ class DatabaseCreation(BaseDatabaseCreation):
 
 
 class DatabaseIntrospection(BaseDatabaseIntrospection):
-    get_table_list = complain
-    get_table_description = complain
-    get_relations = complain
-    get_indexes = complain
+    pass
+    # get_table_list = complain
+    # get_table_description = complain
+    # get_relations = complain
+    # get_indexes = complain
 
 
 # class DatabaseWrapper(BaseDatabaseWrapper):
@@ -184,3 +193,5 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         self.connected = True
         connection_created.send(sender=self.__class__, connection=self)
 
+    def cursor(self):
+        return Cursor()
