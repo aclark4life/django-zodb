@@ -1,10 +1,5 @@
 """
-Dummy database backend for Django.
-
-Django uses this if the database ENGINE setting is empty (None or empty string).
-
-Each of these API functions, except connection.close(), raise
-ImproperlyConfigured.
+ZODB backend
 """
 
 from django.core.exceptions import ImproperlyConfigured
@@ -19,6 +14,60 @@ from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 from ZODB import FileStorage, DB
 
 
+class ZODBCursor:
+    def execute(self, command, *args):
+        if command == 'ADD':
+            app_label, migration_name, applied = args
+            record = MigrationRecord(app_label, migration_name, applied)
+            self.migrations[(app_label, migration_name)] = record
+            transaction.commit()
+        elif command == 'GET':
+            app_label, migration_name = args
+            return self.migrations.get((app_label, migration_name))
+        elif command == 'LIST':
+            return list(self.migrations.values())
+        else:
+            raise ValueError("Unknown command")
+
+    def __iter__(self):
+        self._iter = iter(self.migrations.items())
+        return self
+
+    def __next__(self):
+        return next(self._iter)
+
+    def close(self):
+        self.connection.close()
+        self.db.close()
+        self.storage.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
+
+class ZODBConnection:
+    def __init__(self, db_path='Data.fs'):
+        self.db_path = db_path
+
+    def __enter__(self):
+        self.storage = ZODB.FileStorage.FileStorage(self.db_path)
+        self.db = DB(self.storage)
+        self.connection = self.db.open()
+        self.root = self.connection.root()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.connection.close()
+        self.db.close()
+        self.storage.close()
+
+    def cursor(self):
+        return ZODBCursor(self.root)
+
+
 def complain(*args, **kwargs):
     print(args, kwargs)
     raise ImproperlyConfigured(
@@ -30,16 +79,6 @@ def complain(*args, **kwargs):
 
 def ignore(*args, **kwargs):
     pass
-
-
-class Cursor:
-    """A "nodb" cursor that does nothing except work on a context manager."""
-
-    def __enter__(self):
-        pass
-
-    def __exit__(self, exception_type, exception_value, exception_traceback):
-        pass
 
 
 class DatabaseOperations(BaseDatabaseOperations):
@@ -59,41 +98,9 @@ class DatabaseCreation(BaseDatabaseCreation):
 
 
 class DatabaseIntrospection(BaseDatabaseIntrospection):
-    pass
-    # get_table_list = complain
-    # get_table_description = complain
-    # get_relations = complain
-    # get_indexes = complain
-
     def table_names(self, cursor=None, include_views=False):
         # return [x["name"] for x in self.connection.database.list_collections()]
         return []
-
-
-# class DatabaseWrapper(BaseDatabaseWrapper):
-#     operators = {}
-#     # Override the base class implementations with null
-#     # implementations. Anything that tries to actually
-#     # do something raises complain; anything that tries
-#     # to rollback or undo something raises ignore.
-#     _cursor = complain
-#     ensure_connection = complain
-#     _commit = complain
-#     _rollback = ignore
-#     _close = ignore
-#     _savepoint = ignore
-#     _savepoint_commit = complain
-#     _savepoint_rollback = ignore
-#     _set_autocommit = complain
-#     # Classes instantiated in __init__().
-#     client_class = DatabaseClient
-#     creation_class = DatabaseCreation
-#     features_class = DummyDatabaseFeatures
-#     introspection_class = DatabaseIntrospection
-#     ops_class = DatabaseOperations
-# 
-#     def is_usable(self):
-#         return True
 
 
 class DatabaseWrapper(BaseDatabaseWrapper):
@@ -105,7 +112,6 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     SchemaEditorClass = BaseDatabaseSchemaEditor
     client_class = DatabaseClient
     introspection_class = DatabaseIntrospection
-    # features_class = DatabaseFeatures
     features_class = DummyDatabaseFeatures
     ops_class = DatabaseOperations
 
@@ -131,15 +137,11 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         }
 
     def get_new_connection(self, conn_params):
-        storage = FileStorage.FileStorage('Data.fs')
-        db = DB(storage)
-        return db.open()
+        self.connection = ZODBConnection()
+        return self.connection
 
     def init_connection_state(self):
         pass
-
-    def create_cursor(self, name=None):
-        return self.connection.root()
 
     def close(self):
         if self.connection is not None:
@@ -201,6 +203,3 @@ class DatabaseWrapper(BaseDatabaseWrapper):
 
         self.connected = True
         connection_created.send(sender=self.__class__, connection=self)
-
-    def cursor(self):
-        return Cursor()
