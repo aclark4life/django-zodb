@@ -28,10 +28,12 @@ class MigrationRecord(Persistent):
 
 
 class ZODBCursor:
-    def __init__(self, root):
+    def __init__(self, root, connection):
         self.root = root
+        self.connection = connection
         if "migrations" not in self.root:
             self.root["migrations"] = OOBTree()
+            transaction.commit()
         self.migrations = self.root["migrations"]
 
     def execute(self, command, *args):
@@ -55,20 +57,19 @@ class ZODBCursor:
     def __next__(self):
         return next(self._iter)
 
+    def close(self):
+        pass
+
 
 class ZODBConnection:
-    def __init__(self, db_path="mydb.fs"):
+    def __init__(self, db_path="Data.fs"):
         self.db_path = db_path
-        self.storage = None
-        self.db = None
-        self.connection = None
-        self.root = None
-
-    def __enter__(self):
         self.storage = FileStorage.FileStorage(self.db_path)
         self.db = DB(self.storage)
         self.connection = self.db.open()
         self.root = self.connection.root()
+
+    def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -86,7 +87,7 @@ class ZODBConnection:
             self.storage = None
 
     def cursor(self):
-        return ZODBCursor(self.root)
+        return ZODBCursor(self.root, self.connection)
 
 
 def complain(*args, **kwargs):
