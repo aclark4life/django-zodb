@@ -15,6 +15,7 @@ from django.db.backends.base.introspection import BaseDatabaseIntrospection
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.db.backends.dummy.features import DummyDatabaseFeatures
 from django.db.backends.signals import connection_created
+from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 from ZODB import FileStorage, DB
 
 
@@ -97,7 +98,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     vendor = 'zodb'
     display_name = 'ZODB'
 
-    # SchemaEditorClass = DatabaseSchemaEditor
+    SchemaEditorClass = BaseDatabaseSchemaEditor
     client_class = DatabaseClient
     introspection_class = DatabaseIntrospection
     # features_class = DatabaseFeatures
