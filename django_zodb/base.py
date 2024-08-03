@@ -11,7 +11,7 @@ from django.db.backends.base.operations import BaseDatabaseOperations
 from django.db.backends.dummy.features import DummyDatabaseFeatures
 from django.db.backends.signals import connection_created
 from django.db.backends.base.schema import BaseDatabaseSchemaEditor
-from ZODB import FileStorage, DB
+from ZODB import DB, FileStorage
 from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 import transaction
@@ -26,23 +26,24 @@ class MigrationRecord(Persistent):
         self.migration_name = migration_name
         self.applied = applied
 
+
 class ZODBCursor:
     def __init__(self, root):
         self.root = root
-        if 'migrations' not in self.root:
-            self.root['migrations'] = OOBTree()
-        self.migrations = self.root['migrations']
+        if "migrations" not in self.root:
+            self.root["migrations"] = OOBTree()
+        self.migrations = self.root["migrations"]
 
     def execute(self, command, *args):
-        if command == 'ADD':
+        if command == "ADD":
             app_label, migration_name, applied = args
             record = MigrationRecord(app_label, migration_name, applied)
             self.migrations[(app_label, migration_name)] = record
             transaction.commit()
-        elif command == 'GET':
+        elif command == "GET":
             app_label, migration_name = args
             return self.migrations.get((app_label, migration_name))
-        elif command == 'LIST':
+        elif command == "LIST":
             return list(self.migrations.values())
         else:
             raise ValueError("Unknown command")
@@ -56,7 +57,7 @@ class ZODBCursor:
 
 
 class ZODBConnection:
-    def __init__(self, db_path='mydb.fs'):
+    def __init__(self, db_path="mydb.fs"):
         self.db_path = db_path
         self.storage = None
         self.db = None
@@ -64,7 +65,7 @@ class ZODBConnection:
         self.root = None
 
     def __enter__(self):
-        self.storage = ZODB.FileStorage.FileStorage(self.db_path)
+        self.storage = FileStorage.FileStorage(self.db_path)
         self.db = DB(self.storage)
         self.connection = self.db.open()
         self.root = self.connection.root()
@@ -126,8 +127,8 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
 class DatabaseWrapper(BaseDatabaseWrapper):
     operators = {}
 
-    vendor = 'zodb'
-    display_name = 'ZODB'
+    vendor = "zodb"
+    display_name = "ZODB"
 
     SchemaEditorClass = BaseDatabaseSchemaEditor
     client_class = DatabaseClient
@@ -153,7 +154,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
 
     def get_connection_params(self):
         return {
-            'path': self.settings_dict.get('NAME'),
+            "path": self.settings_dict.get("NAME"),
         }
 
     def get_new_connection(self, conn_params):
@@ -204,7 +205,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
 
     def _connect(self):
         settings_dict = self.settings_dict
-        
+
         options = settings_dict["OPTIONS"]
         # TODO: review and document OPERATIONS: https://github.com/mongodb-labs/django-mongodb/issues/6
         self.operation_flags = options.pop("OPERATIONS", {})
@@ -212,13 +213,13 @@ class DatabaseWrapper(BaseDatabaseWrapper):
             # Flags apply to all operations.
             flags = self.operation_flags
             self.operation_flags = {"save": flags, "delete": flags, "update": flags}
-        
+
         self.connection = self.get_new_connection({})
 
         db_name = settings_dict["NAME"]
         if db_name:
             self.database = self.connection[db_name]
-        
+
         user = settings_dict["USER"]
         password = settings_dict["PASSWORD"]
         if user and password and not self.database.authenticate(user, password):
