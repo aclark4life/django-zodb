@@ -60,6 +60,10 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
     # get_relations = complain
     # get_indexes = complain
 
+    def table_names(self, cursor=None, include_views=False):
+        # return [x["name"] for x in self.connection.database.list_collections()]
+        return []
+
 
 # class DatabaseWrapper(BaseDatabaseWrapper):
 #     operators = {}
