@@ -20,6 +20,7 @@ from ZODB import FileStorage, DB
 
 
 def complain(*args, **kwargs):
+    print(args, kwargs)
     raise ImproperlyConfigured(
         "settings.DATABASES is improperly configured. "
         "Please supply the ENGINE value. Check "
@@ -42,7 +43,10 @@ class Cursor:
 
 
 class DatabaseOperations(BaseDatabaseOperations):
-    quote_name = complain
+    def quote_name(self, name):
+        if name.startswith('"') and name.endswith('"'):
+            return name  # Quoting once is enough.
+        return name
 
 
 class DatabaseClient(BaseDatabaseClient):
