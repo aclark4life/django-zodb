@@ -12,9 +12,27 @@ from django.db.backends.dummy.features import DummyDatabaseFeatures
 from django.db.backends.signals import connection_created
 from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 from ZODB import FileStorage, DB
+from BTrees.OOBTree import OOBTree
+from persistent import Persistent
+import transaction
 
+# Via django-mongodb
+from . import dbapi as Database
+
+
+class MigrationRecord(Persistent):
+    def __init__(self, app_label, migration_name, applied):
+        self.app_label = app_label
+        self.migration_name = migration_name
+        self.applied = applied
 
 class ZODBCursor:
+    def __init__(self, root):
+        self.root = root
+        if 'migrations' not in self.root:
+            self.root['migrations'] = OOBTree()
+        self.migrations = self.root['migrations']
+
     def execute(self, command, *args):
         if command == 'ADD':
             app_label, migration_name, applied = args
@@ -36,19 +54,14 @@ class ZODBCursor:
     def __next__(self):
         return next(self._iter)
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
-
 
 class ZODBConnection:
-    def __init__(self, db_path='Data.fs'):
+    def __init__(self, db_path='mydb.fs'):
         self.db_path = db_path
         self.storage = None
         self.db = None
         self.connection = None
+        self.root = None
 
     def __enter__(self):
         self.storage = ZODB.FileStorage.FileStorage(self.db_path)
@@ -122,8 +135,6 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     features_class = DummyDatabaseFeatures
     ops_class = DatabaseOperations
 
-    _cursor = complain
-    ensure_connection = complain
     _commit = complain
     _rollback = ignore
     _close = ignore
@@ -132,6 +143,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     _savepoint_rollback = ignore
     client_class = DatabaseClient
     creation_class = DatabaseCreation
+
+    Database = Database
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -174,7 +187,10 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     def get_autocommit():
         return False
 
-    # Via https://github.com/aclark4life/django-mongodb
+    def create_cursor(self, name=None):
+        return self.connection.cursor()
+
+    # Via django-mongodb
     def __getattr__(self, attr):
         """
         Connect to the database the first time `connection` or `database` are
