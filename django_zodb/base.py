@@ -36,11 +36,6 @@ class ZODBCursor:
     def __next__(self):
         return next(self._iter)
 
-    def close(self):
-        self.connection.close()
-        self.db.close()
-        self.storage.close()
-
     def __enter__(self):
         return self
 
@@ -51,6 +46,9 @@ class ZODBCursor:
 class ZODBConnection:
     def __init__(self, db_path='Data.fs'):
         self.db_path = db_path
+        self.storage = None
+        self.db = None
+        self.connection = None
 
     def __enter__(self):
         self.storage = ZODB.FileStorage.FileStorage(self.db_path)
@@ -60,9 +58,18 @@ class ZODBConnection:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.connection.close()
-        self.db.close()
-        self.storage.close()
+        self.close()
+
+    def close(self):
+        if self.connection is not None:
+            self.connection.close()
+            self.connection = None
+        if self.db is not None:
+            self.db.close()
+            self.db = None
+        if self.storage is not None:
+            self.storage.close()
+            self.storage = None
 
     def cursor(self):
         return ZODBCursor(self.root)
