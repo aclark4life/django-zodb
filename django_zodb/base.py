@@ -31,8 +31,8 @@ class ZODBCursor:
     def __init__(self, root, connection):
         self.root = root
         self.connection = connection
-        if "migrations" not in self.root:
-            self.root["migrations"] = OOBTree()
+        if "django_migrations" not in self.root:
+            self.root["django_migrations"] = OOBTree()
             transaction.commit()
         self.migrations = self.root["migrations"]
 
@@ -47,6 +47,8 @@ class ZODBCursor:
             return self.migrations.get((app_label, migration_name))
         elif command == "LIST":
             return list(self.migrations.values())
+        elif command == "CREATE TABLE django_migrations ()":
+            pass
         else:
             raise ValueError("Unknown command")
 
