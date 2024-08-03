@@ -4,8 +4,8 @@ Inspired by https://github.com/osantana-archive/django-zodb
 
 - No RelStorage
 - Based on
-    - https://github.com/aclark4life/django-mongodb
-    - https://github.com/aclark4life/mongo-python-driver
+    - https://github.com/mongodb-labs/django-mongodb
+    - https://github.com/django-nonrel/mongodb-engine
 
 ## Reference
 
