@@ -18,6 +18,7 @@ from django.db import (
 )
 
 from .cursor import ZODBCursor
+from .root import FriendlyRoot
 
 
 # Define TableInfo class
@@ -75,6 +76,7 @@ class DatabaseClient:
         db = ZODB.DB(storage)
         connection = db.open()
         root = connection.root
+        root = FriendlyRoot(root)
         print("Running shell")
         code.interact(local={"root": root}, readfunc=readfunc)
 
