@@ -18,6 +18,43 @@ from django.db import (
 )
 
 
+class ZODBCursor:
+    def __init__(self, root, connection):
+        self.root = root
+        self.connection = connection
+        if "django_migrations" not in self.root:
+            self.root["django_migrations"] = OOBTree()
+            transaction.commit()
+        self.migrations = self.root["migrations"]
+
+    def execute(self, command, *args):
+        if command == "ADD":
+            app_label, migration_name, applied = args
+            record = MigrationRecord(app_label, migration_name, applied)
+            self.migrations[(app_label, migration_name)] = record
+            transaction.commit()
+        elif command == "GET":
+            app_label, migration_name = args
+            return self.migrations.get((app_label, migration_name))
+        elif command == "LIST":
+            return list(self.migrations.values())
+        elif command == "CREATE TABLE django_migrations ()":
+            pass
+        else:
+            raise ValueError("Unknown command")
+
+    def __iter__(self):
+        self._iter = iter(self.migrations.items())
+        return self
+
+    def __next__(self):
+        return next(self._iter)
+
+    def close(self):
+        pass
+
+
+
 class MockCursor:
     def execute(self, sql, params=None):
         pass
@@ -178,7 +215,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         pass
 
     def create_cursor(self, name=None):
-        return MockCursor()
+        return ZODBCursor(self.connection, self)
 
     def _set_autocommit(self, autocommit):
         # Avoid calling ensure_connection if already connected or in the process of connecting
