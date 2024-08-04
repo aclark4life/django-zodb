@@ -1,3 +1,5 @@
+import ZODB, ZODB.FileStorage
+import transaction
 from django.db.backends.base.base import BaseDatabaseWrapper
 from django.db.backends.base.features import BaseDatabaseFeatures
 from django.db.backends.base.introspection import BaseDatabaseIntrospection
@@ -13,28 +15,61 @@ from django.db import (
     ProgrammingError,
     NotSupportedError,
 )
+from persistent.mapping import PersistentMapping
 
-# Dummy Features
-class DummyDatabaseFeatures(BaseDatabaseFeatures):
+# Define TableInfo class
+class TableInfo:
+    def __init__(self, name, type):
+        self.name = name
+        self.type = type
+
+# ZODB Features
+class ZODBDatabaseFeatures(BaseDatabaseFeatures):
     def __init__(self, connection):
         super().__init__(connection)
         self.can_rollback_ddl = True
 
-# Dummy Cursor and Connection
-class DummyCursor:
-    def __init__(self):
-        self.lastrowid = None  # Add the lastrowid attribute
-        self.rowcount = 0  # Add the rowcount attribute
+# ZODB Cursor and Connection
+class ZODBCursor:
+    def __init__(self, connection):
+        self.connection = connection
+        self.lastrowid = None  # Initialize lastrowid attribute
+        self.rowcount = -1  # Initialize rowcount attribute
 
     def execute(self, sql, params=None):
+        # Convert sql to string if it's not already
+        sql = str(sql)
+        # Implement interaction with ZODB here
         print(f"Executing SQL: {sql} with params: {params}")
-        self.lastrowid = 1  # Simulate an auto-increment ID
-        self.rowcount = 1  # Simulate a row count
+        # Example logic to handle table creation and data insertion
+        if sql.startswith("CREATE TABLE"):
+            table_name = sql.split()[2].strip('"')
+            if table_name not in self.connection.root:
+                self.connection.root[table_name] = PersistentMapping()
+                transaction.commit()
+                self.rowcount = 0
+            else:
+                print(f"Table {table_name} already exists")
+        elif sql.startswith("INSERT INTO"):
+            table_name = sql.split()[2].strip('"')
+            table = self.connection.root.get(table_name)
+            if table is not None:
+                row_id = len(table) + 1
+                table[row_id] = params
+                transaction.commit()
+                self.lastrowid = row_id
+                self.rowcount = 1
+            else:
+                raise DatabaseError(f"Table {table_name} does not exist")
+        else:
+            print("Unsupported SQL command")
 
     def fetchall(self):
+        # Implement fetching data from ZODB here
         return []
 
     def fetchmany(self, size=None):
+        # Implement fetching data from ZODB here
         return []
 
     def close(self):
@@ -46,85 +81,32 @@ class DummyCursor:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
-class DummyConnection:
-    alias = 'default'  # Add the alias attribute
-    vendor = 'dummy'  # Add the vendor attribute
+class ZODBConnection:
+    alias = 'default'
+    vendor = 'zodb'
 
-    def __init__(self):
-        self.features = DummyDatabaseFeatures(self)  # Initialize features with self
-        self.ops = DatabaseOperations(self)  # Initialize ops with self
-        self.data_types = {  # Add the data_types attribute
-            'AutoField': 'integer',
-            'BigAutoField': 'bigint',
-            'BinaryField': 'blob',
-            'BooleanField': 'bool',
-            'CharField': 'varchar',
-            'DateField': 'date',
-            'DateTimeField': 'timestamp',
-            'DecimalField': 'decimal',
-            'DurationField': 'interval',
-            'FileField': 'varchar',
-            'FilePathField': 'varchar',
-            'FloatField': 'real',
-            'IntegerField': 'integer',
-            'BigIntegerField': 'bigint',
-            'IPAddressField': 'char(15)',
-            'GenericIPAddressField': 'char(39)',
-            'NullBooleanField': 'bool',
-            'OneToOneField': 'integer',
-            'PositiveIntegerField': 'integer',
-            'PositiveSmallIntegerField': 'smallint',
-            'SlugField': 'varchar',
-            'SmallIntegerField': 'smallint',
-            'TextField': 'text',
-            'TimeField': 'time',
-            'UUIDField': 'char(32)',
-        }
-        self.data_type_check_constraints = {  # Add the data_type_check_constraints attribute
-            'PositiveIntegerField': '%(column)s >= 0',
-            'PositiveSmallIntegerField': '%(column)s >= 0',
-        }
-        self.data_types_suffix = {  # Add the data_types_suffix attribute
-            'AutoField': '',
-            'BigAutoField': '',
-            'BinaryField': '',
-            'BooleanField': '',
-            'CharField': '',
-            'DateField': '',
-            'DateTimeField': '',
-            'DecimalField': '',
-            'DurationField': '',
-            'FileField': '',
-            'FilePathField': '',
-            'FloatField': '',
-            'IntegerField': '',
-            'BigIntegerField': '',
-            'IPAddressField': '',
-            'GenericIPAddressField': '',
-            'NullBooleanField': '',
-            'OneToOneField': '',
-            'PositiveIntegerField': '',
-            'PositiveSmallIntegerField': '',
-            'SlugField': '',
-            'SmallIntegerField': '',
-            'TextField': '',
-            'TimeField': '',
-            'UUIDField': '',
-        }
+    def __init__(self, db_path):
+        self.db_path = db_path
+        self.storage = ZODB.FileStorage.FileStorage(db_path)
+        self.db = ZODB.DB(self.storage)
+        self.connection = self.db.open()
+        self.root = self.connection.root()
 
     def cursor(self):
-        return DummyCursor()
+        return ZODBCursor(self)
 
     def commit(self):
-        print("Committing transaction")
+        transaction.commit()
 
     def rollback(self):
-        print("Rolling back transaction")
+        transaction.abort()
 
     def close(self):
-        print("Closing connection")
+        self.connection.close()
+        self.db.close()
+        self.storage.close()
 
-# Dummy DatabaseClient
+# ZODB DatabaseClient
 class DatabaseClient:
     def __init__(self, connection):
         self.connection = connection
@@ -132,7 +114,7 @@ class DatabaseClient:
     def runshell(self):
         print("Running shell")
 
-# Dummy DatabaseCreation
+# ZODB DatabaseCreation
 class DatabaseCreation:
     def __init__(self, connection):
         self.connection = connection
@@ -143,10 +125,10 @@ class DatabaseCreation:
     def destroy_test_db(self, *args, **kwargs):
         print("Destroying test database")
 
-# Dummy DatabaseSchemaEditor
+# ZODB DatabaseSchemaEditor
 class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
-    atomic_migration = False  # Add the atomic_migration attribute
-    deferred_sql = []  # Add the deferred_sql attribute
+    atomic_migration = False
+    deferred_sql = []
 
     def __init__(self, connection, collect_sql=False, *args, **kwargs):
         super().__init__(connection, collect_sql, *args, **kwargs)
@@ -158,13 +140,15 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
         if self.collect_sql:
             self.collected_sql.append(sql)
         else:
-            print(f"Executing SQL: {sql}")
+            self.connection.cursor().execute(sql, params)
 
     def create_model(self, model):
+        # Implement model creation in ZODB here
         sql = f"CREATE TABLE {model._meta.db_table} (...);"
         self.execute(sql)
 
     def delete_model(self, model):
+        # Implement model deletion in ZODB here
         sql = f"DROP TABLE {model._meta.db_table};"
         self.execute(sql)
 
@@ -180,12 +164,10 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
     def add_constraint(self, model, constraint):
         print(f"Adding constraint {constraint.name} to model {model._meta.db_table}")
 
-    # Add other schema operations as needed
-
-# Dummy DatabaseIntrospection
+# ZODB DatabaseIntrospection
 class DatabaseIntrospection(BaseDatabaseIntrospection):
     def get_table_list(self, cursor):
-        return []
+        return [TableInfo(name, "t") for name in cursor.connection.root.keys()]
 
     def get_table_description(self, cursor, table_name):
         return []
@@ -199,7 +181,7 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
     def get_constraints(self, cursor, table_name):
         return {}
 
-# Dummy DatabaseOperations
+# ZODB DatabaseOperations
 class DatabaseOperations(BaseDatabaseOperations):
     def __init__(self, connection):
         super().__init__(connection)
@@ -208,19 +190,18 @@ class DatabaseOperations(BaseDatabaseOperations):
         return f'"{name}"'
 
     def bulk_insert_sql(self, fields, placeholder_rows):
-        # Implement a dummy bulk_insert_sql method
         return "INSERT INTO ... VALUES ..."
 
 # DatabaseWrapper
 class DatabaseWrapper(BaseDatabaseWrapper):
-    vendor = 'dummy'
-    display_name = 'DummyDB'
-    client_class = DatabaseClient  # Set the client_class attribute
-    creation_class = DatabaseCreation  # Set the creation_class attribute
-    schema_editor_class = DatabaseSchemaEditor  # Set the schema_editor_class attribute
-    introspection_class = DatabaseIntrospection  # Set the introspection_class attribute
-    ops_class = DatabaseOperations  # Set the ops_class attribute
-    features_class = DummyDatabaseFeatures  # Set the features_class attribute
+    vendor = 'zodb'
+    display_name = 'ZODB'
+    client_class = DatabaseClient
+    creation_class = DatabaseCreation
+    schema_editor_class = DatabaseSchemaEditor
+    introspection_class = DatabaseIntrospection
+    ops_class = DatabaseOperations
+    features_class = ZODBDatabaseFeatures
 
     operators = {
         'exact': '= %s',
@@ -254,12 +235,13 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         super().__init__(*args, **kwargs)
         self.connection = None
         self._in_connect = False
+        self.features = self.features_class(self)
 
     def get_connection_params(self):
-        return {}
+        return {'db_path': self.settings_dict['NAME']}
 
     def get_new_connection(self, conn_params):
-        return DummyConnection()
+        return ZODBConnection(conn_params['db_path'])
 
     def init_connection_state(self):
         pass
@@ -271,7 +253,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         print(f"Setting autocommit to {autocommit}")
 
     def schema_editor(self, *args, **kwargs):
-        return self.schema_editor_class(self.connection, *args, **kwargs)
+        return self.schema_editor_class(self, *args, **kwargs)
 
     def _commit(self):
         self.connection.commit()
