@@ -67,7 +67,16 @@ class DatabaseClient:
         self.connection = connection
 
     def runshell(self, parameters):
+        import readline
+        import code
+        import rlcompleter  # noqa
+        readfunc = readline.parse_and_bind("tab: complete")
+        storage = ZODB.FileStorage.FileStorage('Data.fs')
+        db = ZODB.DB(storage)
+        connection = db.open()
+        root = connection.root
         print("Running shell")
+        code.interact(local={"root": root}, readfunc=readfunc)
 
 
 # ZODB DatabaseCreation
