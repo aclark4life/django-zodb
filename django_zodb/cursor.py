@@ -1,5 +1,5 @@
 from django.db import DatabaseError
-from persistent.mapping import PersistentMapping
+from BTrees.OOBTree import OOBTree
 
 import transaction
 
@@ -19,7 +19,7 @@ class ZODBCursor:
         if sql.startswith("CREATE TABLE"):
             table_name = sql.split()[2].strip('"')
             if table_name not in self.connection.root:
-                self.connection.root[table_name] = PersistentMapping()
+                self.connection.root[table_name] = OOBTree()
                 transaction.commit()
                 self.rowcount = 0
             else:
