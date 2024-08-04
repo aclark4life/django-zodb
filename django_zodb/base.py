@@ -207,6 +207,10 @@ class DatabaseOperations(BaseDatabaseOperations):
     def quote_name(self, name):
         return f'"{name}"'
 
+    def bulk_insert_sql(self, fields, placeholder_rows):
+        # Implement a dummy bulk_insert_sql method
+        return "INSERT INTO ... VALUES ..."
+
 # DatabaseWrapper
 class DatabaseWrapper(BaseDatabaseWrapper):
     vendor = 'dummy'
