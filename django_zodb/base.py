@@ -17,8 +17,6 @@ from django.db import (
     NotSupportedError,
 )
 
-from .instrospection import DatabaseIntrospection
-
 
 class MockCursor:
     def execute(self, sql, params=None):
@@ -107,6 +105,25 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
         # Implement logic to prepare a default value for insertion into ZODB
         return value
 
+
+class DatabaseIntrospection(BaseDatabaseIntrospection):
+    def get_table_list(self, cursor):
+        # Return a list of table names
+        return [] 
+
+    def get_table_description(self, cursor, table_name):
+        # Return a description of the table
+        pass
+
+    def get_relations(self, cursor, table_name):
+        # Return a dictionary of relations
+        pass
+
+    def get_indexes(self, cursor, table_name):
+        # Return a dictionary of indexes
+        pass
+
+
 class DatabaseWrapper(BaseDatabaseWrapper):
     vendor = 'zodb'
     display_name = 'ZODB'
@@ -128,16 +145,22 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         ProgrammingError = ProgrammingError
         NotSupportedError = NotSupportedError
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ops = self.ops_class(self)
-        self.client = self.client_class(self)
-        self.creation = self.creation_class(self)
-        self.introspection = self.introspection_class(self)
-        self.schema_editor = self.schema_editor_class(self)
-        self.features = self.features_class(self)
-        self.connection = None
-        self._in_connect = False  # Flag to indicate connection is being established
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.ops = self.ops_class(self)
+    #     self.client = self.client_class(self)
+    #     self.creation = self.creation_class(self)
+    #     self.introspection = self.introspection_class(self)
+    #     self.schema_editor = self.schema_editor_class
+    #     self.features = self.features_class(self)
+    #     self.connection = None
+    #     self._in_connect = False  # Flag to indicate connection is being established
+
+    def _in_connect(self):
+        return False
+
+    def schema_editor(self, *args, **kwargs):
+        return self.schema_editor_class(self, *args, **kwargs)
 
     def check_settings(self):
         # Add debug statement to trace method calls
