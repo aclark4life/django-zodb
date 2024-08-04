@@ -84,6 +84,33 @@ class DummyConnection:
             'PositiveIntegerField': '%(column)s >= 0',
             'PositiveSmallIntegerField': '%(column)s >= 0',
         }
+        self.data_types_suffix = {  # Add the data_types_suffix attribute
+            'AutoField': '',
+            'BigAutoField': '',
+            'BinaryField': '',
+            'BooleanField': '',
+            'CharField': '',
+            'DateField': '',
+            'DateTimeField': '',
+            'DecimalField': '',
+            'DurationField': '',
+            'FileField': '',
+            'FilePathField': '',
+            'FloatField': '',
+            'IntegerField': '',
+            'BigIntegerField': '',
+            'IPAddressField': '',
+            'GenericIPAddressField': '',
+            'NullBooleanField': '',
+            'OneToOneField': '',
+            'PositiveIntegerField': '',
+            'PositiveSmallIntegerField': '',
+            'SlugField': '',
+            'SmallIntegerField': '',
+            'TextField': '',
+            'TimeField': '',
+            'UUIDField': '',
+        }
 
     def cursor(self):
         return DummyCursor()
