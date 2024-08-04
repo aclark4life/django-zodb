@@ -66,7 +66,7 @@ class DatabaseClient:
     def __init__(self, connection):
         self.connection = connection
 
-    def runshell(self):
+    def runshell(self, parameters):
         print("Running shell")
 
 
