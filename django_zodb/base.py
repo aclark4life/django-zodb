@@ -1,4 +1,5 @@
-import ZODB, ZODB.FileStorage
+import ZODB
+import ZODB.FileStorage
 import transaction
 from django.db.backends.base.base import BaseDatabaseWrapper
 from django.db.backends.base.features import BaseDatabaseFeatures
@@ -15,9 +16,9 @@ from django.db import (
     ProgrammingError,
     NotSupportedError,
 )
-from persistent.mapping import PersistentMapping
 
 from .cursor import ZODBCursor
+
 
 # Define TableInfo class
 class TableInfo:
@@ -25,16 +26,18 @@ class TableInfo:
         self.name = name
         self.type = type
 
+
 # ZODB Features
 class ZODBDatabaseFeatures(BaseDatabaseFeatures):
     def __init__(self, connection):
         super().__init__(connection)
         self.can_rollback_ddl = True
 
+
 # ZODB Connection
 class ZODBConnection:
-    alias = 'default'
-    vendor = 'zodb'
+    alias = "default"
+    vendor = "zodb"
 
     def __init__(self, db_path):
         self.db_path = db_path
@@ -57,6 +60,7 @@ class ZODBConnection:
         self.db.close()
         self.storage.close()
 
+
 # ZODB DatabaseClient
 class DatabaseClient:
     def __init__(self, connection):
@@ -64,6 +68,7 @@ class DatabaseClient:
 
     def runshell(self):
         print("Running shell")
+
 
 # ZODB DatabaseCreation
 class DatabaseCreation:
@@ -75,6 +80,7 @@ class DatabaseCreation:
 
     def destroy_test_db(self, *args, **kwargs):
         print("Destroying test database")
+
 
 # ZODB DatabaseSchemaEditor
 class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
@@ -104,16 +110,21 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
         self.execute(sql)
 
     def alter_unique_together(self, model, old_unique_together, new_unique_together):
-        print(f"Altering unique_together for {model._meta.db_table} from {old_unique_together} to {new_unique_together}")
+        print(
+            f"Altering unique_together for {model._meta.db_table} from {old_unique_together} to {new_unique_together}"
+        )
 
     def alter_field(self, model, old_field, new_field, strict=False):
-        print(f"Altering field {old_field.name} to {new_field.name} in model {model._meta.db_table}")
+        print(
+            f"Altering field {old_field.name} to {new_field.name} in model {model._meta.db_table}"
+        )
 
     def remove_field(self, model, field):
         print(f"Removing field {field.name} from model {model._meta.db_table}")
 
     def add_constraint(self, model, constraint):
         print(f"Adding constraint {constraint.name} to model {model._meta.db_table}")
+
 
 # ZODB DatabaseIntrospection
 class DatabaseIntrospection(BaseDatabaseIntrospection):
@@ -132,6 +143,7 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
     def get_constraints(self, cursor, table_name):
         return {}
 
+
 # ZODB DatabaseOperations
 class DatabaseOperations(BaseDatabaseOperations):
     def __init__(self, connection):
@@ -143,10 +155,11 @@ class DatabaseOperations(BaseDatabaseOperations):
     def bulk_insert_sql(self, fields, placeholder_rows):
         return "INSERT INTO ... VALUES ..."
 
+
 # DatabaseWrapper
 class DatabaseWrapper(BaseDatabaseWrapper):
-    vendor = 'zodb'
-    display_name = 'ZODB'
+    vendor = "zodb"
+    display_name = "ZODB"
     client_class = DatabaseClient
     creation_class = DatabaseCreation
     schema_editor_class = DatabaseSchemaEditor
@@ -155,20 +168,20 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     features_class = ZODBDatabaseFeatures
 
     operators = {
-        'exact': '= %s',
-        'iexact': 'ILIKE %s',
-        'contains': 'LIKE %s',
-        'icontains': 'ILIKE %s',
-        'regex': '~ %s',
-        'iregex': '~* %s',
-        'gt': '> %s',
-        'gte': '>= %s',
-        'lt': '< %s',
-        'lte': '<= %s',
-        'startswith': 'LIKE %s',
-        'istartswith': 'ILIKE %s',
-        'endswith': 'LIKE %s',
-        'iendswith': 'ILIKE %s',
+        "exact": "= %s",
+        "iexact": "ILIKE %s",
+        "contains": "LIKE %s",
+        "icontains": "ILIKE %s",
+        "regex": "~ %s",
+        "iregex": "~* %s",
+        "gt": "> %s",
+        "gte": ">= %s",
+        "lt": "< %s",
+        "lte": "<= %s",
+        "startswith": "LIKE %s",
+        "istartswith": "ILIKE %s",
+        "endswith": "LIKE %s",
+        "iendswith": "ILIKE %s",
     }
 
     class Database:
@@ -189,10 +202,10 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         self.features = self.features_class(self)
 
     def get_connection_params(self):
-        return {'db_path': self.settings_dict['NAME']}
+        return {"db_path": self.settings_dict["NAME"]}
 
     def get_new_connection(self, conn_params):
-        return ZODBConnection(conn_params['db_path'])
+        return ZODBConnection(conn_params["db_path"])
 
     def init_connection_state(self):
         pass

@@ -1,3 +1,6 @@
+from Persistence import PersistentMapping
+from django.db import DatabaseError
+
 import transaction
 
 
