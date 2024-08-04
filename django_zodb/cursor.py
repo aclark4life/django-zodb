@@ -1,5 +1,5 @@
-from Persistence import PersistentMapping
 from django.db import DatabaseError
+from persistent.mapping import PersistentMapping
 
 import transaction
 
