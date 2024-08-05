@@ -20,7 +20,7 @@ from django.db import (
 )
 
 from .cursor import ZODBCursor
-from .root import FriendlyRoot
+from .root import ZODBRoot
 
 
 # Define TableInfo class
