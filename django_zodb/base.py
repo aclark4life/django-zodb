@@ -58,8 +58,6 @@ class ZODBConnection:
 
     def close(self):
         self.connection.close()
-        # self.db.close()
-        # self.storage.close()
 
 
 # ZODB DatabaseClient
