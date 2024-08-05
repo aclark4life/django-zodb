@@ -15,6 +15,7 @@ Inspired by https://github.com/osantana-archive/django-zodb
 
 - `dbshell` client
 
+```
 test-django-zodb git:main  
 (test-django-zodb) ❯ python manage.py dbshell
 Running shell
@@ -24,7 +25,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> root
 <ZODB with tables: ['django_migrations', 'django_content_type', 'auth_permission', 'auth_group', 'siteuser_user', 'account_emailaddress', 'account_emailconfirmation', 'django_admin_log', 'authtoken_token', 'explorer_query', 'explorer_querylog', 'explorer_queryfavorite', 'explorer_promptlog', 'explorer_explorervalue', 'explorer_databaseconnection', 'django_session', 'socialaccount_socialaccount', 'socialaccount_socialapp', 'socialaccount_socialtoken']>
 >>> 
-
+```
 
 - Show migrations
 
