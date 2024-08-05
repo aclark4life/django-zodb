@@ -11,12 +11,26 @@ Inspired by https://github.com/osantana-archive/django-zodb
 
 - https://medium.com/django-unleashed/how-does-django-manage-db-connections-4c1a009cec91
 
-
 ## Current status
 
-- Print migrations
+- `dbshell` client
+
+test-django-zodb git:main  
+(test-django-zodb) ❯ python manage.py dbshell
+Running shell
+Python 3.12.4 (main, Jun  6 2024, 18:26:44) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> root
+<ZODB with tables: ['django_migrations', 'django_content_type', 'auth_permission', 'auth_group', 'siteuser_user', 'account_emailaddress', 'account_emailconfirmation', 'django_admin_log', 'authtoken_token', 'explorer_query', 'explorer_querylog', 'explorer_queryfavorite', 'explorer_promptlog', 'explorer_explorervalue', 'explorer_databaseconnection', 'django_session', 'socialaccount_socialaccount', 'socialaccount_socialapp', 'socialaccount_socialtoken']>
+>>> 
+
+
+- Show migrations
 
 ```
+test-django-zodb git:main  
+(test-django-zodb) ❯ python manage.py dbshell
 python manage.py migrate
 Setting autocommit to True
 Closing cursor
