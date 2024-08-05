@@ -1,3 +1,4 @@
+import ZEO
 import ZODB
 import ZODB.FileStorage
 import transaction
@@ -42,9 +43,8 @@ class ZODBConnection:
 
     def __init__(self, db_path):
         self.db_path = db_path
-        self.storage = ZODB.FileStorage.FileStorage(db_path)
-        self.db = ZODB.DB(self.storage)
-        self.connection = self.db.open()
+        address, stop = ZEO.server()
+        self.connection = ZEO.connection(address)
         self.root = self.connection.root()
 
     def cursor(self):
@@ -58,8 +58,8 @@ class ZODBConnection:
 
     def close(self):
         self.connection.close()
-        self.db.close()
-        self.storage.close()
+        # self.db.close()
+        # self.storage.close()
 
 
 # ZODB DatabaseClient
