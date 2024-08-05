@@ -7,6 +7,7 @@ from django.db.backends.base.features import BaseDatabaseFeatures
 from django.db.backends.base.introspection import BaseDatabaseIntrospection
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+from django.db.backends.base.client import BaseDatabaseClient
 from django.db import (
     DatabaseError,
     InterfaceError,
@@ -61,15 +62,12 @@ class ZODBConnection:
 
 
 # ZODB DatabaseClient
-class DatabaseClient:
-    def __init__(self, connection):
-        self.connection = connection
+class DatabaseClient(BaseDatabaseClient):
 
     def runshell(self, parameters):
         import readline
         import code
         import rlcompleter  # noqa
-
         readfunc = readline.parse_and_bind("tab: complete")
         storage = ZODB.FileStorage.FileStorage("Data.fs")
         db = ZODB.DB(storage)
