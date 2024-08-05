@@ -4,16 +4,17 @@ from zope.catalog.catalog import Catalog
 from zope.catalog.field import FieldIndex
 import transaction
 
+
 class ZODBCursor:
     def __init__(self, connection):
         self.connection = connection
         self.lastrowid = None  # Initialize lastrowid attribute
         self.rowcount = -1  # Initialize rowcount attribute
-        if 'catalog' not in self.connection.root:
-            self.connection.root['catalog'] = Catalog()
+        if "catalog" not in self.connection.root:
+            self.connection.root["catalog"] = Catalog()
             transaction.commit()
-        if 'tables' not in self.connection.root:
-            self.connection.root['tables'] = OOBTree()
+        if "tables" not in self.connection.root:
+            self.connection.root["tables"] = OOBTree()
             transaction.commit()
 
     def execute(self, sql, params=None):
@@ -46,7 +47,7 @@ class ZODBCursor:
             index_name = parts[2].strip('"')
             table_name = parts[4].strip('"')
             column_name = parts[5].strip('()"')
-            catalog = self.connection.root['catalog']
+            catalog = self.connection.root["catalog"]
             if index_name not in catalog:
                 catalog[index_name] = FieldIndex(column_name)
                 transaction.commit()

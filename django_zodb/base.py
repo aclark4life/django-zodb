@@ -1,4 +1,3 @@
-import ZEO
 import ZODB
 import ZODB.FileStorage
 import transaction
@@ -66,11 +65,11 @@ class ZODBConnection:
 
 # ZODB DatabaseClient
 class DatabaseClient(BaseDatabaseClient):
-
     def runshell(self, parameters):
         import readline
         import code
         import rlcompleter  # noqa
+
         readfunc = readline.parse_and_bind("tab: complete")
         storage = ZODB.FileStorage.FileStorage("Data.fs")
         db = ZODB.DB(storage)
