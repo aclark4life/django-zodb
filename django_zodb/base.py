@@ -73,7 +73,7 @@ class DatabaseClient(BaseDatabaseClient):
         db = ZODB.DB(storage)
         connection = db.open()
         root = connection.root
-        root = FriendlyRoot(root)
+        root = ZODBRoot(root)
         print("Running shell")
         code.interact(local={"root": root}, readfunc=readfunc)
 
