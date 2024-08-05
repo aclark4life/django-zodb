@@ -6,6 +6,7 @@ Inspired by https://github.com/osantana-archive/django-zodb
 - Based on
     - https://github.com/mongodb-labs/django-mongodb
     - https://github.com/django-nonrel/mongodb-engine
+    - https://github.com/django/django/tree/main/django/db/backends
 
 ## Reference
 
