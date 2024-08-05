@@ -28,6 +28,363 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
 
+- `dumpzodb` management command
+
+```
+: {'catalog': <zope.catalog.catalog.Catalog object at 0x108f2c8a0 oid 0x1 in <ZODB.Connection.Connection object at 0x108f62870>>, 'tables': <BTrees.OOBTree.OOBTree object at 0x108f1a040 oid 0x4 in <ZODB.Connection.Connection object at 0x108f62870>>}
+  /data: {'catalog': <zope.catalog.catalog.Catalog object at 0x108f2c8a0 oid 0x1 in <ZODB.Connection.Connection object at 0x108f62870>>, 'tables': <BTrees.OOBTree.OOBTree object at 0x108f1a040 oid 0x4 in <ZODB.Connection.Connection object at 0x108f62870>>}
+    /data/catalog: <zope.catalog.catalog.Catalog object at 0x108f2c8a0 oid 0x1 in <ZODB.Connection.Connection object at 0x108f62870>>
+    /data/tables: <BTrees.OOBTree.OOBTree object at 0x108f1a040 oid 0x4 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/account_emailaddress: <BTrees.OOBTree.OOBTree object at 0x108f1a240 oid 0xa in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/account_emailconfirmation: <BTrees.OOBTree.OOBTree object at 0x108f1a2c0 oid 0xb in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/auth_group: <BTrees.OOBTree.OOBTree object at 0x108f1a340 oid 0x8 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/auth_permission: <BTrees.OOBTree.OOBTree object at 0x108f1a440 oid 0x7 in <ZODB.Connection.Connection object at 0x108f62870>>
+        /data/tables/auth_permission/1: ('Can add log entry', 2, 'add_logentry', 'Can change log entry', 2, 'change_logentry', 'Can delete log entry', 2, 'delete_logentry', 'Can view log entry', 2, 'view_logentry')
+        /data/tables/auth_permission/2: ('Can add permission', 5, 'add_permission', 'Can change permission', 5, 'change_permission', 'Can delete permission', 5, 'delete_permission', 'Can view permission', 5, 'view_permission', 'Can add group', 6, 'add_group', 'Can change group', 6, 'change_group', 'Can delete group', 6, 'delete_group', 'Can view group', 6, 'view_group')
+        /data/tables/auth_permission/3: ('Can add content type', 9, 'add_contenttype', 'Can change content type', 9, 'change_contenttype', 'Can delete content type', 9, 'delete_contenttype', 'Can view content type', 9, 'view_contenttype')
+        /data/tables/auth_permission/4: ('Can add session', 12, 'add_session', 'Can change session', 12, 'change_session', 'Can delete session', 12, 'delete_session', 'Can view session', 12, 'view_session')
+        /data/tables/auth_permission/5: ('Can add Token', 15, 'add_token', 'Can change Token', 15, 'change_token', 'Can delete Token', 15, 'delete_token', 'Can view Token', 15, 'view_token', 'Can add Token', 16, 'add_tokenproxy', 'Can change Token', 16, 'change_tokenproxy', 'Can delete Token', 16, 'delete_tokenproxy', 'Can view Token', 16, 'view_tokenproxy')
+        /data/tables/auth_permission/6: ('Can add email address', 19, 'add_emailaddress', 'Can change email address', 19, 'change_emailaddress', 'Can delete email address', 19, 'delete_emailaddress', 'Can view email address', 19, 'view_emailaddress', 'Can add email confirmation', 20, 'add_emailconfirmation', 'Can change email confirmation', 20, 'change_emailconfirmation', 'Can delete email confirmation', 20, 'delete_emailconfirmation', 'Can view email confirmation', 20, 'view_emailconfirmation')
+        /data/tables/auth_permission/7: ('Can add social account', 23, 'add_socialaccount', 'Can change social account', 23, 'change_socialaccount', 'Can delete social account', 23, 'delete_socialaccount', 'Can view social account', 23, 'view_socialaccount', 'Can add social application', 24, 'add_socialapp', 'Can change social application', 24, 'change_socialapp', 'Can delete social application', 24, 'delete_socialapp', 'Can view social application', 24, 'view_socialapp', 'Can add social application token', 25, 'add_socialtoken', 'Can change social application token', 25, 'change_socialtoken', 'Can delete social application token', 25, 'delete_socialtoken', 'Can view social application token', 25, 'view_socialtoken')
+        /data/tables/auth_permission/8: ('Can add user', 28, 'add_user', 'Can change user', 28, 'change_user', 'Can delete user', 28, 'delete_user', 'Can view user', 28, 'view_user')
+        /data/tables/auth_permission/9: ('Can add Query', 31, 'add_query', 'Can change Query', 31, 'change_query', 'Can delete Query', 31, 'delete_query', 'Can view Query', 31, 'view_query', 'Can add query log', 32, 'add_querylog', 'Can change query log', 32, 'change_querylog', 'Can delete query log', 32, 'delete_querylog', 'Can view query log', 32, 'view_querylog', 'Can add query favorite', 33, 'add_queryfavorite', 'Can change query favorite', 33, 'change_queryfavorite', 'Can delete query favorite', 33, 'delete_queryfavorite', 'Can view query favorite', 33, 'view_queryfavorite', 'Can add prompt log', 34, 'add_promptlog', 'Can change prompt log', 34, 'change_promptlog', 'Can delete prompt log', 34, 'delete_promptlog', 'Can view prompt log', 34, 'view_promptlog', 'Can add explorer value', 35, 'add_explorervalue', 'Can change explorer value', 35, 'change_explorervalue', 'Can delete explorer value', 35, 'delete_explorervalue', 'Can view explorer value', 35, 'view_explorervalue', 'Can add database connection', 36, 'add_databaseconnection', 'Can change database connection', 36, 'change_databaseconnection', 'Can delete database connection', 36, 'delete_databaseconnection', 'Can view database connection', 36, 'view_databaseconnection')
+      /data/tables/authtoken_token: <BTrees.OOBTree.OOBTree object at 0x108f1a4c0 oid 0x11 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/django_admin_log: <BTrees.OOBTree.OOBTree object at 0x108f1a540 oid 0x10 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/django_content_type: <BTrees.OOBTree.OOBTree object at 0x108f1a5c0 oid 0x6 in <ZODB.Connection.Connection object at 0x108f62870>>
+        /data/tables/django_content_type/1: ('admin', 'logentry')
+        /data/tables/django_content_type/2: ['admin', 'logentry']
+          /data/tables/django_content_type/2/0: admin
+          /data/tables/django_content_type/2/1: logentry
+        /data/tables/django_content_type/3: ('admin', 'logentry')
+        /data/tables/django_content_type/4: ('auth', 'permission', 'auth', 'group')
+        /data/tables/django_content_type/5: ['auth', 'permission']
+          /data/tables/django_content_type/5/0: auth
+          /data/tables/django_content_type/5/1: permission
+        /data/tables/django_content_type/6: ['auth', 'group']
+          /data/tables/django_content_type/6/0: auth
+          /data/tables/django_content_type/6/1: group
+        /data/tables/django_content_type/7: ('auth', 'permission', 'auth', 'group')
+        /data/tables/django_content_type/8: ('contenttypes', 'contenttype')
+        /data/tables/django_content_type/9: ['contenttypes', 'contenttype']
+          /data/tables/django_content_type/9/0: contenttypes
+          /data/tables/django_content_type/9/1: contenttype
+        /data/tables/django_content_type/10: ('contenttypes', 'contenttype')
+        /data/tables/django_content_type/11: ('sessions', 'session')
+        /data/tables/django_content_type/12: ['sessions', 'session']
+          /data/tables/django_content_type/12/0: sessions
+          /data/tables/django_content_type/12/1: session
+        /data/tables/django_content_type/13: ('sessions', 'session')
+        /data/tables/django_content_type/14: ('authtoken', 'token', 'authtoken', 'tokenproxy')
+        /data/tables/django_content_type/15: ['authtoken', 'token']
+          /data/tables/django_content_type/15/0: authtoken
+          /data/tables/django_content_type/15/1: token
+        /data/tables/django_content_type/16: ['authtoken', 'tokenproxy']
+          /data/tables/django_content_type/16/0: authtoken
+          /data/tables/django_content_type/16/1: tokenproxy
+        /data/tables/django_content_type/17: ('authtoken', 'token', 'authtoken', 'tokenproxy')
+        /data/tables/django_content_type/18: ('account', 'emailaddress', 'account', 'emailconfirmation')
+        /data/tables/django_content_type/19: ['account', 'emailaddress']
+          /data/tables/django_content_type/19/0: account
+          /data/tables/django_content_type/19/1: emailaddress
+        /data/tables/django_content_type/20: ['account', 'emailconfirmation']
+          /data/tables/django_content_type/20/0: account
+          /data/tables/django_content_type/20/1: emailconfirmation
+        /data/tables/django_content_type/21: ('account', 'emailaddress', 'account', 'emailconfirmation')
+        /data/tables/django_content_type/22: ('socialaccount', 'socialaccount', 'socialaccount', 'socialapp', 'socialaccount', 'socialtoken')
+        /data/tables/django_content_type/23: ['socialaccount', 'socialaccount']
+          /data/tables/django_content_type/23/0: socialaccount
+          /data/tables/django_content_type/23/1: socialaccount
+        /data/tables/django_content_type/24: ['socialaccount', 'socialapp']
+          /data/tables/django_content_type/24/0: socialaccount
+          /data/tables/django_content_type/24/1: socialapp
+        /data/tables/django_content_type/25: ['socialaccount', 'socialtoken']
+          /data/tables/django_content_type/25/0: socialaccount
+          /data/tables/django_content_type/25/1: socialtoken
+        /data/tables/django_content_type/26: ('socialaccount', 'socialaccount', 'socialaccount', 'socialapp', 'socialaccount', 'socialtoken')
+        /data/tables/django_content_type/27: ('siteuser', 'user')
+        /data/tables/django_content_type/28: ['siteuser', 'user']
+          /data/tables/django_content_type/28/0: siteuser
+          /data/tables/django_content_type/28/1: user
+        /data/tables/django_content_type/29: ('siteuser', 'user')
+        /data/tables/django_content_type/30: ('explorer', 'query', 'explorer', 'querylog', 'explorer', 'queryfavorite', 'explorer', 'promptlog', 'explorer', 'explorervalue', 'explorer', 'databaseconnection')
+        /data/tables/django_content_type/31: ['explorer', 'query']
+          /data/tables/django_content_type/31/0: explorer
+          /data/tables/django_content_type/31/1: query
+        /data/tables/django_content_type/32: ['explorer', 'querylog']
+          /data/tables/django_content_type/32/0: explorer
+          /data/tables/django_content_type/32/1: querylog
+        /data/tables/django_content_type/33: ['explorer', 'queryfavorite']
+          /data/tables/django_content_type/33/0: explorer
+          /data/tables/django_content_type/33/1: queryfavorite
+        /data/tables/django_content_type/34: ['explorer', 'promptlog']
+          /data/tables/django_content_type/34/0: explorer
+          /data/tables/django_content_type/34/1: promptlog
+        /data/tables/django_content_type/35: ['explorer', 'explorervalue']
+          /data/tables/django_content_type/35/0: explorer
+          /data/tables/django_content_type/35/1: explorervalue
+        /data/tables/django_content_type/36: ['explorer', 'databaseconnection']
+          /data/tables/django_content_type/36/0: explorer
+          /data/tables/django_content_type/36/1: databaseconnection
+        /data/tables/django_content_type/37: ('explorer', 'query', 'explorer', 'querylog', 'explorer', 'queryfavorite', 'explorer', 'promptlog', 'explorer', 'explorervalue', 'explorer', 'databaseconnection')
+      /data/tables/django_migrations: <BTrees.OOBTree.OOBTree object at 0x108f1a3c0 oid 0x5 in <ZODB.Connection.Connection object at 0x108f62870>>
+        /data/tables/django_migrations/1: ['contenttypes', '0001_initial', '2024-08-05 21:16:29.300939+00:00']
+          /data/tables/django_migrations/1/0: contenttypes
+          /data/tables/django_migrations/1/1: 0001_initial
+          /data/tables/django_migrations/1/2: 2024-08-05 21:16:29.300939+00:00
+        /data/tables/django_migrations/2: ['contenttypes', '0002_remove_content_type_name', '2024-08-05 21:16:29.302974+00:00']
+          /data/tables/django_migrations/2/0: contenttypes
+          /data/tables/django_migrations/2/1: 0002_remove_content_type_name
+          /data/tables/django_migrations/2/2: 2024-08-05 21:16:29.302974+00:00
+        /data/tables/django_migrations/3: ['auth', '0001_initial', '2024-08-05 21:16:29.305952+00:00']
+          /data/tables/django_migrations/3/0: auth
+          /data/tables/django_migrations/3/1: 0001_initial
+          /data/tables/django_migrations/3/2: 2024-08-05 21:16:29.305952+00:00
+        /data/tables/django_migrations/4: ['auth', '0002_alter_permission_name_max_length', '2024-08-05 21:16:29.307013+00:00']
+          /data/tables/django_migrations/4/0: auth
+          /data/tables/django_migrations/4/1: 0002_alter_permission_name_max_length
+          /data/tables/django_migrations/4/2: 2024-08-05 21:16:29.307013+00:00
+        /data/tables/django_migrations/5: ['auth', '0003_alter_user_email_max_length', '2024-08-05 21:16:29.308348+00:00']
+          /data/tables/django_migrations/5/0: auth
+          /data/tables/django_migrations/5/1: 0003_alter_user_email_max_length
+          /data/tables/django_migrations/5/2: 2024-08-05 21:16:29.308348+00:00
+        /data/tables/django_migrations/6: ['auth', '0004_alter_user_username_opts', '2024-08-05 21:16:29.309835+00:00']
+          /data/tables/django_migrations/6/0: auth
+          /data/tables/django_migrations/6/1: 0004_alter_user_username_opts
+          /data/tables/django_migrations/6/2: 2024-08-05 21:16:29.309835+00:00
+        /data/tables/django_migrations/7: ['auth', '0005_alter_user_last_login_null', '2024-08-05 21:16:29.319032+00:00']
+          /data/tables/django_migrations/7/0: auth
+          /data/tables/django_migrations/7/1: 0005_alter_user_last_login_null
+          /data/tables/django_migrations/7/2: 2024-08-05 21:16:29.319032+00:00
+        /data/tables/django_migrations/8: ['auth', '0006_require_contenttypes_0002', '2024-08-05 21:16:29.319403+00:00']
+          /data/tables/django_migrations/8/0: auth
+          /data/tables/django_migrations/8/1: 0006_require_contenttypes_0002
+          /data/tables/django_migrations/8/2: 2024-08-05 21:16:29.319403+00:00
+        /data/tables/django_migrations/9: ['auth', '0007_alter_validators_add_error_messages', '2024-08-05 21:16:29.320866+00:00']
+          /data/tables/django_migrations/9/0: auth
+          /data/tables/django_migrations/9/1: 0007_alter_validators_add_error_messages
+          /data/tables/django_migrations/9/2: 2024-08-05 21:16:29.320866+00:00
+        /data/tables/django_migrations/10: ['auth', '0008_alter_user_username_max_length', '2024-08-05 21:16:29.322260+00:00']
+          /data/tables/django_migrations/10/0: auth
+          /data/tables/django_migrations/10/1: 0008_alter_user_username_max_length
+          /data/tables/django_migrations/10/2: 2024-08-05 21:16:29.322260+00:00
+        /data/tables/django_migrations/11: ['auth', '0009_alter_user_last_name_max_length', '2024-08-05 21:16:29.323640+00:00']
+          /data/tables/django_migrations/11/0: auth
+          /data/tables/django_migrations/11/1: 0009_alter_user_last_name_max_length
+          /data/tables/django_migrations/11/2: 2024-08-05 21:16:29.323640+00:00
+        /data/tables/django_migrations/12: ['auth', '0010_alter_group_name_max_length', '2024-08-05 21:16:29.324745+00:00']
+          /data/tables/django_migrations/12/0: auth
+          /data/tables/django_migrations/12/1: 0010_alter_group_name_max_length
+          /data/tables/django_migrations/12/2: 2024-08-05 21:16:29.324745+00:00
+        /data/tables/django_migrations/13: ['auth', '0011_update_proxy_permissions', '2024-08-05 21:16:29.326732+00:00']
+          /data/tables/django_migrations/13/0: auth
+          /data/tables/django_migrations/13/1: 0011_update_proxy_permissions
+          /data/tables/django_migrations/13/2: 2024-08-05 21:16:29.326732+00:00
+        /data/tables/django_migrations/14: ['auth', '0012_alter_user_first_name_max_length', '2024-08-05 21:16:29.328061+00:00']
+          /data/tables/django_migrations/14/0: auth
+          /data/tables/django_migrations/14/1: 0012_alter_user_first_name_max_length
+          /data/tables/django_migrations/14/2: 2024-08-05 21:16:29.328061+00:00
+        /data/tables/django_migrations/15: ['siteuser', '0001_initial', '2024-08-05 21:16:29.329874+00:00']
+          /data/tables/django_migrations/15/0: siteuser
+          /data/tables/django_migrations/15/1: 0001_initial
+          /data/tables/django_migrations/15/2: 2024-08-05 21:16:29.329874+00:00
+        /data/tables/django_migrations/16: ['account', '0001_initial', '2024-08-05 21:16:29.333725+00:00']
+          /data/tables/django_migrations/16/0: account
+          /data/tables/django_migrations/16/1: 0001_initial
+          /data/tables/django_migrations/16/2: 2024-08-05 21:16:29.333725+00:00
+        /data/tables/django_migrations/17: ['account', '0002_email_max_length', '2024-08-05 21:16:29.335621+00:00']
+          /data/tables/django_migrations/17/0: account
+          /data/tables/django_migrations/17/1: 0002_email_max_length
+          /data/tables/django_migrations/17/2: 2024-08-05 21:16:29.335621+00:00
+        /data/tables/django_migrations/18: ['account', '0003_alter_emailaddress_create_unique_verified_email', '2024-08-05 21:16:29.339277+00:00']
+          /data/tables/django_migrations/18/0: account
+          /data/tables/django_migrations/18/1: 0003_alter_emailaddress_create_unique_verified_email
+          /data/tables/django_migrations/18/2: 2024-08-05 21:16:29.339277+00:00
+        /data/tables/django_migrations/19: ['account', '0004_alter_emailaddress_drop_unique_email', '2024-08-05 21:16:29.341374+00:00']
+          /data/tables/django_migrations/19/0: account
+          /data/tables/django_migrations/19/1: 0004_alter_emailaddress_drop_unique_email
+          /data/tables/django_migrations/19/2: 2024-08-05 21:16:29.341374+00:00
+        /data/tables/django_migrations/20: ['account', '0005_emailaddress_idx_upper_email', '2024-08-05 21:16:29.344577+00:00']
+          /data/tables/django_migrations/20/0: account
+          /data/tables/django_migrations/20/1: 0005_emailaddress_idx_upper_email
+          /data/tables/django_migrations/20/2: 2024-08-05 21:16:29.344577+00:00
+        /data/tables/django_migrations/21: ['account', '0006_emailaddress_lower', '2024-08-05 21:16:29.347265+00:00']
+          /data/tables/django_migrations/21/0: account
+          /data/tables/django_migrations/21/1: 0006_emailaddress_lower
+          /data/tables/django_migrations/21/2: 2024-08-05 21:16:29.347265+00:00
+        /data/tables/django_migrations/22: ['account', '0007_emailaddress_idx_email', '2024-08-05 21:16:29.350838+00:00']
+          /data/tables/django_migrations/22/0: account
+          /data/tables/django_migrations/22/1: 0007_emailaddress_idx_email
+          /data/tables/django_migrations/22/2: 2024-08-05 21:16:29.350838+00:00
+        /data/tables/django_migrations/23: ['account', '0008_emailaddress_unique_primary_email_fixup', '2024-08-05 21:16:29.353789+00:00']
+          /data/tables/django_migrations/23/0: account
+          /data/tables/django_migrations/23/1: 0008_emailaddress_unique_primary_email_fixup
+          /data/tables/django_migrations/23/2: 2024-08-05 21:16:29.353789+00:00
+        /data/tables/django_migrations/24: ['account', '0009_emailaddress_unique_primary_email', '2024-08-05 21:16:29.355761+00:00']
+          /data/tables/django_migrations/24/0: account
+          /data/tables/django_migrations/24/1: 0009_emailaddress_unique_primary_email
+          /data/tables/django_migrations/24/2: 2024-08-05 21:16:29.355761+00:00
+        /data/tables/django_migrations/25: ['admin', '0001_initial', '2024-08-05 21:16:29.358473+00:00']
+          /data/tables/django_migrations/25/0: admin
+          /data/tables/django_migrations/25/1: 0001_initial
+          /data/tables/django_migrations/25/2: 2024-08-05 21:16:29.358473+00:00
+        /data/tables/django_migrations/26: ['admin', '0002_logentry_remove_auto_add', '2024-08-05 21:16:29.360698+00:00']
+          /data/tables/django_migrations/26/0: admin
+          /data/tables/django_migrations/26/1: 0002_logentry_remove_auto_add
+          /data/tables/django_migrations/26/2: 2024-08-05 21:16:29.360698+00:00
+        /data/tables/django_migrations/27: ['admin', '0003_logentry_add_action_flag_choices', '2024-08-05 21:16:29.363613+00:00']
+          /data/tables/django_migrations/27/0: admin
+          /data/tables/django_migrations/27/1: 0003_logentry_add_action_flag_choices
+          /data/tables/django_migrations/27/2: 2024-08-05 21:16:29.363613+00:00
+        /data/tables/django_migrations/28: ['authtoken', '0001_initial', '2024-08-05 21:16:29.366245+00:00']
+          /data/tables/django_migrations/28/0: authtoken
+          /data/tables/django_migrations/28/1: 0001_initial
+          /data/tables/django_migrations/28/2: 2024-08-05 21:16:29.366245+00:00
+        /data/tables/django_migrations/29: ['authtoken', '0002_auto_20160226_1747', '2024-08-05 21:16:29.374038+00:00']
+          /data/tables/django_migrations/29/0: authtoken
+          /data/tables/django_migrations/29/1: 0002_auto_20160226_1747
+          /data/tables/django_migrations/29/2: 2024-08-05 21:16:29.374038+00:00
+        /data/tables/django_migrations/30: ['authtoken', '0003_tokenproxy', '2024-08-05 21:16:29.374608+00:00']
+          /data/tables/django_migrations/30/0: authtoken
+          /data/tables/django_migrations/30/1: 0003_tokenproxy
+          /data/tables/django_migrations/30/2: 2024-08-05 21:16:29.374608+00:00
+        /data/tables/django_migrations/31: ['authtoken', '0004_alter_tokenproxy_options', '2024-08-05 21:16:29.375913+00:00']
+          /data/tables/django_migrations/31/0: authtoken
+          /data/tables/django_migrations/31/1: 0004_alter_tokenproxy_options
+          /data/tables/django_migrations/31/2: 2024-08-05 21:16:29.375913+00:00
+        /data/tables/django_migrations/32: ['explorer', '0001_initial', '2024-08-05 21:16:29.382804+00:00']
+          /data/tables/django_migrations/32/0: explorer
+          /data/tables/django_migrations/32/1: 0001_initial
+          /data/tables/django_migrations/32/2: 2024-08-05 21:16:29.382804+00:00
+        /data/tables/django_migrations/33: ['explorer', '0002_auto_20150501_1515', '2024-08-05 21:16:29.387532+00:00']
+          /data/tables/django_migrations/33/0: explorer
+          /data/tables/django_migrations/33/1: 0002_auto_20150501_1515
+          /data/tables/django_migrations/33/2: 2024-08-05 21:16:29.387532+00:00
+        /data/tables/django_migrations/34: ['explorer', '0003_query_snapshot', '2024-08-05 21:16:29.390135+00:00']
+          /data/tables/django_migrations/34/0: explorer
+          /data/tables/django_migrations/34/1: 0003_query_snapshot
+          /data/tables/django_migrations/34/2: 2024-08-05 21:16:29.390135+00:00
+        /data/tables/django_migrations/35: ['explorer', '0004_querylog_duration', '2024-08-05 21:16:29.392859+00:00']
+          /data/tables/django_migrations/35/0: explorer
+          /data/tables/django_migrations/35/1: 0004_querylog_duration
+          /data/tables/django_migrations/35/2: 2024-08-05 21:16:29.392859+00:00
+        /data/tables/django_migrations/36: ['explorer', '0005_auto_20160105_2052', '2024-08-05 21:16:29.395535+00:00']
+          /data/tables/django_migrations/36/0: explorer
+          /data/tables/django_migrations/36/1: 0005_auto_20160105_2052
+          /data/tables/django_migrations/36/2: 2024-08-05 21:16:29.395535+00:00
+        /data/tables/django_migrations/37: ['explorer', '0006_query_connection', '2024-08-05 21:16:29.399051+00:00']
+          /data/tables/django_migrations/37/0: explorer
+          /data/tables/django_migrations/37/1: 0006_query_connection
+          /data/tables/django_migrations/37/2: 2024-08-05 21:16:29.399051+00:00
+        /data/tables/django_migrations/38: ['explorer', '0007_querylog_connection', '2024-08-05 21:16:29.401638+00:00']
+          /data/tables/django_migrations/38/0: explorer
+          /data/tables/django_migrations/38/1: 0007_querylog_connection
+          /data/tables/django_migrations/38/2: 2024-08-05 21:16:29.401638+00:00
+        /data/tables/django_migrations/39: ['explorer', '0008_auto_20190308_1642', '2024-08-05 21:16:29.404335+00:00']
+          /data/tables/django_migrations/39/0: explorer
+          /data/tables/django_migrations/39/1: 0008_auto_20190308_1642
+          /data/tables/django_migrations/39/2: 2024-08-05 21:16:29.404335+00:00
+        /data/tables/django_migrations/40: ['explorer', '0009_auto_20201009_0547', '2024-08-05 21:16:29.411543+00:00']
+          /data/tables/django_migrations/40/0: explorer
+          /data/tables/django_migrations/40/1: 0009_auto_20201009_0547
+          /data/tables/django_migrations/40/2: 2024-08-05 21:16:29.411543+00:00
+        /data/tables/django_migrations/41: ['explorer', '0010_sql_required', '2024-08-05 21:16:29.414510+00:00']
+          /data/tables/django_migrations/41/0: explorer
+          /data/tables/django_migrations/41/1: 0010_sql_required
+          /data/tables/django_migrations/41/2: 2024-08-05 21:16:29.414510+00:00
+        /data/tables/django_migrations/42: ['explorer', '0011_query_favorites', '2024-08-05 21:16:29.418610+00:00']
+          /data/tables/django_migrations/42/0: explorer
+          /data/tables/django_migrations/42/1: 0011_query_favorites
+          /data/tables/django_migrations/42/2: 2024-08-05 21:16:29.418610+00:00
+        /data/tables/django_migrations/43: ['explorer', '0012_alter_queryfavorite_query_alter_queryfavorite_user', '2024-08-05 21:16:29.424335+00:00']
+          /data/tables/django_migrations/43/0: explorer
+          /data/tables/django_migrations/43/1: 0012_alter_queryfavorite_query_alter_queryfavorite_user
+          /data/tables/django_migrations/43/2: 2024-08-05 21:16:29.424335+00:00
+        /data/tables/django_migrations/44: ['explorer', '0013_querylog_error_querylog_success', '2024-08-05 21:16:29.429518+00:00']
+          /data/tables/django_migrations/44/0: explorer
+          /data/tables/django_migrations/44/1: 0013_querylog_error_querylog_success
+          /data/tables/django_migrations/44/2: 2024-08-05 21:16:29.429518+00:00
+        /data/tables/django_migrations/45: ['explorer', '0014_promptlog', '2024-08-05 21:16:29.433681+00:00']
+          /data/tables/django_migrations/45/0: explorer
+          /data/tables/django_migrations/45/1: 0014_promptlog
+          /data/tables/django_migrations/45/2: 2024-08-05 21:16:29.433681+00:00
+        /data/tables/django_migrations/46: ['explorer', '0015_explorervalue', '2024-08-05 21:16:29.434421+00:00']
+          /data/tables/django_migrations/46/0: explorer
+          /data/tables/django_migrations/46/1: 0015_explorervalue
+          /data/tables/django_migrations/46/2: 2024-08-05 21:16:29.434421+00:00
+        /data/tables/django_migrations/47: ['explorer', '0016_alter_explorervalue_key', '2024-08-05 21:16:29.439236+00:00']
+          /data/tables/django_migrations/47/0: explorer
+          /data/tables/django_migrations/47/1: 0016_alter_explorervalue_key
+          /data/tables/django_migrations/47/2: 2024-08-05 21:16:29.439236+00:00
+        /data/tables/django_migrations/48: ['explorer', '0017_databaseconnection', '2024-08-05 21:16:29.440032+00:00']
+          /data/tables/django_migrations/48/0: explorer
+          /data/tables/django_migrations/48/1: 0017_databaseconnection
+          /data/tables/django_migrations/48/2: 2024-08-05 21:16:29.440032+00:00
+        /data/tables/django_migrations/49: ['explorer', '0018_alter_databaseconnection_host_and_more', '2024-08-05 21:16:29.441692+00:00']
+          /data/tables/django_migrations/49/0: explorer
+          /data/tables/django_migrations/49/1: 0018_alter_databaseconnection_host_and_more
+          /data/tables/django_migrations/49/2: 2024-08-05 21:16:29.441692+00:00
+        /data/tables/django_migrations/50: ['explorer', '0019_alter_databaseconnection_engine', '2024-08-05 21:16:29.442554+00:00']
+          /data/tables/django_migrations/50/0: explorer
+          /data/tables/django_migrations/50/1: 0019_alter_databaseconnection_engine
+          /data/tables/django_migrations/50/2: 2024-08-05 21:16:29.442554+00:00
+        /data/tables/django_migrations/51: ['explorer', '0020_databaseconnection_extras_and_more', '2024-08-05 21:16:29.443757+00:00']
+          /data/tables/django_migrations/51/0: explorer
+          /data/tables/django_migrations/51/1: 0020_databaseconnection_extras_and_more
+          /data/tables/django_migrations/51/2: 2024-08-05 21:16:29.443757+00:00
+        /data/tables/django_migrations/52: ['explorer', '0021_alter_databaseconnection_password_and_more', '2024-08-05 21:16:29.445089+00:00']
+          /data/tables/django_migrations/52/0: explorer
+          /data/tables/django_migrations/52/1: 0021_alter_databaseconnection_password_and_more
+          /data/tables/django_migrations/52/2: 2024-08-05 21:16:29.445089+00:00
+        /data/tables/django_migrations/53: ['sessions', '0001_initial', '2024-08-05 21:16:29.445828+00:00']
+          /data/tables/django_migrations/53/0: sessions
+          /data/tables/django_migrations/53/1: 0001_initial
+          /data/tables/django_migrations/53/2: 2024-08-05 21:16:29.445828+00:00
+        /data/tables/django_migrations/54: ['socialaccount', '0001_initial', '2024-08-05 21:16:29.459127+00:00']
+          /data/tables/django_migrations/54/0: socialaccount
+          /data/tables/django_migrations/54/1: 0001_initial
+          /data/tables/django_migrations/54/2: 2024-08-05 21:16:29.459127+00:00
+        /data/tables/django_migrations/55: ['socialaccount', '0002_token_max_lengths', '2024-08-05 21:16:29.464439+00:00']
+          /data/tables/django_migrations/55/0: socialaccount
+          /data/tables/django_migrations/55/1: 0002_token_max_lengths
+          /data/tables/django_migrations/55/2: 2024-08-05 21:16:29.464439+00:00
+        /data/tables/django_migrations/56: ['socialaccount', '0003_extra_data_default_dict', '2024-08-05 21:16:29.467993+00:00']
+          /data/tables/django_migrations/56/0: socialaccount
+          /data/tables/django_migrations/56/1: 0003_extra_data_default_dict
+          /data/tables/django_migrations/56/2: 2024-08-05 21:16:29.467993+00:00
+        /data/tables/django_migrations/57: ['socialaccount', '0004_app_provider_id_settings', '2024-08-05 21:16:29.472673+00:00']
+          /data/tables/django_migrations/57/0: socialaccount
+          /data/tables/django_migrations/57/1: 0004_app_provider_id_settings
+          /data/tables/django_migrations/57/2: 2024-08-05 21:16:29.472673+00:00
+        /data/tables/django_migrations/58: ['socialaccount', '0005_socialtoken_nullable_app', '2024-08-05 21:16:29.477275+00:00']
+          /data/tables/django_migrations/58/0: socialaccount
+          /data/tables/django_migrations/58/1: 0005_socialtoken_nullable_app
+          /data/tables/django_migrations/58/2: 2024-08-05 21:16:29.477275+00:00
+        /data/tables/django_migrations/59: ['socialaccount', '0006_alter_socialaccount_extra_data', '2024-08-05 21:16:29.480753+00:00']
+          /data/tables/django_migrations/59/0: socialaccount
+          /data/tables/django_migrations/59/1: 0006_alter_socialaccount_extra_data
+          /data/tables/django_migrations/59/2: 2024-08-05 21:16:29.480753+00:00
+      /data/tables/django_session: <BTrees.OOBTree.OOBTree object at 0x108f1a640 oid 0x1b in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/explorer_databaseconnection: <BTrees.OOBTree.OOBTree object at 0x108f1a6c0 oid 0x1a in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/explorer_explorervalue: <BTrees.OOBTree.OOBTree object at 0x108f1a740 oid 0x18 in <ZODB.Connection.Connection object at 0x108f62870>>
+        /data/tables/explorer_explorervalue/1: ['ASP', "You are a data analyst's assistant and will be asked write or modify a SQL query to assist a business\nuser with their analysis. The user will provide a prompt of what they are looking for help with, and may also\nprovide SQL they have written so far, relevant table schema, and sample rows from the tables they are querying.\n\nFor complex requests, you may use Common Table Expressions (CTEs) to break down the problem into smaller parts.\nCTEs are not needed for simpler requests.\n"]
+          /data/tables/explorer_explorervalue/1/0: ASP
+          /data/tables/explorer_explorervalue/1/1: You are a data analyst's assistant and will be asked write or modify a SQL query to assist a business
+user with their analysis. The user will provide a prompt of what they are looking for help with, and may also
+provide SQL they have written so far, relevant table schema, and sample rows from the tables they are querying.
+
+For complex requests, you may use Common Table Expressions (CTEs) to break down the problem into smaller parts.
+CTEs are not needed for simpler requests.
+
+      /data/tables/explorer_promptlog: <BTrees.OOBTree.OOBTree object at 0x108f1a7c0 oid 0x17 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/explorer_query: <BTrees.OOBTree.OOBTree object at 0x108f1a840 oid 0x14 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/explorer_queryfavorite: <BTrees.OOBTree.OOBTree object at 0x108f1a8c0 oid 0x16 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/explorer_querylog: <BTrees.OOBTree.OOBTree object at 0x108f1a940 oid 0x15 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/siteuser_user: <BTrees.OOBTree.OOBTree object at 0x108f1a9c0 oid 0x9 in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/socialaccount_socialaccount: <BTrees.OOBTree.OOBTree object at 0x108f1aa40 oid 0x1c in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/socialaccount_socialapp: <BTrees.OOBTree.OOBTree object at 0x108f1aac0 oid 0x1d in <ZODB.Connection.Connection object at 0x108f62870>>
+      /data/tables/socialaccount_socialtoken: <BTrees.OOBTree.OOBTree object at 0x108f1ab40 oid 0x1e in <ZODB.Connection.Connection object at 0x108f62870>>
+```
+
 - Show migrations
 
 ```
