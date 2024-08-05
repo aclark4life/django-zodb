@@ -4,7 +4,7 @@ requires = ["setuptools"]
 
 [project]
 name = "django-zodb"
-dependencies = ["django", "zodb", "zeo", "zope.catalog"]
+dependencies = ["django", "zodb", "zeo", "zc.catalog"]
 dynamic = ["version"]
 
 [tool.setuptools]

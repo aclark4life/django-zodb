@@ -12,6 +12,9 @@ class ZODBCursor:
         if 'catalog' not in self.connection.root:
             self.connection.root['catalog'] = Catalog()
             transaction.commit()
+        if 'tables' not in self.connection.root:
+            self.connection.root['tables'] = OOBTree()
+            transaction.commit()
 
     def execute(self, sql, params=None):
         # Convert sql to string if it's not already
@@ -21,15 +24,15 @@ class ZODBCursor:
         # Example logic to handle table creation, data insertion, and index creation
         if sql.startswith("CREATE TABLE"):
             table_name = sql.split()[2].strip('"')
-            if table_name not in self.connection.root:
-                self.connection.root[table_name] = OOBTree()
+            if table_name not in self.connection.root["tables"]:
+                self.connection.root["tables"][table_name] = OOBTree()
                 transaction.commit()
                 self.rowcount = 0
             else:
                 print(f"Table {table_name} already exists")
         elif sql.startswith("INSERT INTO"):
             table_name = sql.split()[2].strip('"')
-            table = self.connection.root.get(table_name)
+            table = self.connection.root["tables"].get(table_name)
             if table is not None:
                 row_id = len(table) + 1
                 table[row_id] = params
