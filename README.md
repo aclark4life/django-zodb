@@ -389,8 +389,7 @@ CTEs are not needed for simpler requests.
 
 ```
 test-django-zodb git:main  
-(test-django-zodb) ❯ python manage.py dbshell
-python manage.py migrate
+(test-django-zodb) ❯ python manage.py migrate
 Setting autocommit to True
 Closing cursor
 Closing cursor
