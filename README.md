@@ -17,7 +17,7 @@ Inspired by https://github.com/osantana-archive/django-zodb
 - `dbshell` client
 
 ```
-test-django-zodb git:main  
+test-django-zodb git:main
 (test-django-zodb) ❯ python manage.py dbshell
 Running shell
 Python 3.12.4 (main, Jun  6 2024, 18:26:44) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
@@ -31,6 +31,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 - `dumpzodb` management command
 
 ```
+test-django-zodb git:main
+(test-django-zodb) ❯ python manage.py dumpzodb
 : {'catalog': <zope.catalog.catalog.Catalog object at 0x108f2c8a0 oid 0x1 in <ZODB.Connection.Connection object at 0x108f62870>>, 'tables': <BTrees.OOBTree.OOBTree object at 0x108f1a040 oid 0x4 in <ZODB.Connection.Connection object at 0x108f62870>>}
   /data: {'catalog': <zope.catalog.catalog.Catalog object at 0x108f2c8a0 oid 0x1 in <ZODB.Connection.Connection object at 0x108f62870>>, 'tables': <BTrees.OOBTree.OOBTree object at 0x108f1a040 oid 0x4 in <ZODB.Connection.Connection object at 0x108f62870>>}
     /data/catalog: <zope.catalog.catalog.Catalog object at 0x108f2c8a0 oid 0x1 in <ZODB.Connection.Connection object at 0x108f62870>>
