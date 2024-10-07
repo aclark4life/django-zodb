@@ -8,6 +8,12 @@ Inspired by https://github.com/osantana-archive/django-zodb
     - https://github.com/django-nonrel/mongodb-engine
     - https://github.com/django/django/tree/main/django/db/backends
 
+## Project setup
+
+```
+python manage.py startproject backend . --template=https://github.com/aclark4life/django-zodb-project/archive/refs/heads/main.zip
+```
+
 ## Reference
 
 - https://medium.com/django-unleashed/how-does-django-manage-db-connections-4c1a009cec91
