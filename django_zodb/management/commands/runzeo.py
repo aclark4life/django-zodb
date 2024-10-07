@@ -1,40 +1,43 @@
-# django_zodb/management/commands/dumpzodb.py
+# django_zodb/management/commands/runzeo.py
 
 from django.core.management.base import BaseCommand
-from ZODB import DB
-from ZODB.FileStorage import FileStorage
+import ZEO
+import ZODB
 import transaction
-import BTrees
 
 
 class Command(BaseCommand):
-    help = "Dump all objects from the ZODB"
+    help = "Run ZEO server with in-memory storage in the foreground"
 
     def handle(self, *args, **kwargs):
-        storage = FileStorage("Data.fs")
-        db = DB(storage)
-        connection = db.open()
-        root = connection.root()
-        self.walk_zodb(root)
-        transaction.abort()
-        connection.close()
-        db.close()
+        # Start a ZEO server with dynamic address and in-memory storage
+        address, stop = ZEO.server()
 
-    def walk_zodb(self, obj, path="", depth=0):
-        indent = "  " * depth
-        print(f"{indent}{path}: {obj}")
-        if isinstance(obj, dict) or isinstance(
-            obj,
-            (BTrees.OOBTree.OOBTree, BTrees.IOBTree.IOBTree, BTrees.LOBTree.LOBTree),
-        ):
-            for key, value in obj.items():
-                self.walk_zodb(value, f"{path}/{key}", depth + 1)
-        elif isinstance(obj, list):
-            for index, value in enumerate(obj):
-                self.walk_zodb(value, f"{path}/{index}", depth + 1)
-        elif hasattr(obj, "__dict__"):
-            for key, value in obj.__dict__.items():
-                self.walk_zodb(value, f"{path}/{key}", depth + 1)
-        elif hasattr(obj, "__slots__"):
-            for key in obj.__slots__:
-                self.walk_zodb(getattr(obj, key), f"{path}/{key}", depth + 1)
+        self.stdout.write(self.style.SUCCESS(f"Starting ZEO server on {address[0]}:{address[1]}..."))
+
+        # Create a ZEO client connection
+        client_storage = ZEO.client(address)
+        db = ZODB.DB(client_storage)
+        connection = db.open()
+
+        # Access the root of the database
+        root = connection.root()
+        # You can perform operations here, for example:
+        # root['example_key'] = 'example_value'
+        # transaction.commit()  # Uncomment to commit changes
+
+        try:
+            # Keep the server running in the foreground
+            while True:
+                # Optional: Print a message or status every few seconds
+                self.stdout.write(self.style.SUCCESS("ZEO server is running... Press Ctrl+C to stop."))
+                import time
+                time.sleep(10)  # Adjust the sleep duration as needed
+        except KeyboardInterrupt:
+            self.stdout.write(self.style.WARNING("ZEO server stopped."))
+
+        finally:
+            # Clean up and close connections properly
+            connection.close()
+            db.close()
+            stop()  # Call stop to shut down the ZEO server
