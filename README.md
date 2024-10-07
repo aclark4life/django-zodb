@@ -10,8 +10,11 @@ Inspired by https://github.com/osantana-archive/django-zodb
 
 ## Project setup
 
+Assuming you've cloned this repository:
+
 ```
-python manage.py startproject backend . --template=https://github.com/aclark4life/django-zodb-project/archive/refs/heads/main.zip
+pip install .
+django-admin startproject backend . --template=https://github.com/aclark4life/django-zodb-project/archive/refs/heads/main.zip
 ```
 
 ## Reference
