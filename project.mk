@@ -14,3 +14,4 @@ django-settings-base:
 clean:
 	rm -rvf backend/
 	rm -vf manage.py
+	rm Data.fs.*
