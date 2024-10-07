@@ -6,4 +6,7 @@ _build/
 .elasticbeanstalk/
 build/
 django_zodb.egg-info/
-
+Data.fs
+Data.fs.index
+Data.fs.lock
+Data.fs.tmp
