@@ -29,7 +29,9 @@ django-admin startproject backend . --template \
 
 ### Management commands
 
-#### `python manage.py migrate` (show only)
+#### Migrate
+
+Show migrations only.
 
 ```
 (test-django-zodb) ❯ python manage.py migrate
@@ -77,7 +79,7 @@ Closing cursor
 …
 ```
 
-#### `python manage.py dbshell`
+#### Dbshell
 
 ```
 test-django-zodb git:main
@@ -91,7 +93,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
 
-### `runzeo` management command
+### Runzeo
 
 ```
 python manage.py runzeo
@@ -99,7 +101,9 @@ Starting ZEO server on 127.0.0.1:49275...
 ZEO server is running... Press Ctrl+C to stop.
 ```
 
-#### `python manage.py dumpzodb`
+#### Dumpzodb
+
+(Should be moved to dumpdata)
 
 ```
 test-django-zodb git:main
