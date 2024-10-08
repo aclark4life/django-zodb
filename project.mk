@@ -16,6 +16,8 @@ clean:
 	rm -vf manage.py
 	rm Data.fs.*
 
-
 dump:
 	python manage.py dumpzodb
+
+zeo:
+	python manage.py runzeo
