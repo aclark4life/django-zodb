@@ -31,7 +31,7 @@ django-admin startproject backend . --template \
 
 #### Migrate
 
-Show migrations only.
+(Show migrations only.)
 
 ```
 (test-django-zodb) ❯ python manage.py migrate
