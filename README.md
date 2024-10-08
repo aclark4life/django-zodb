@@ -23,7 +23,7 @@ django-admin startproject backend . --template=https://github.com/aclark4life/dj
 
 ## Current status
 
-- `dbshell` client
+### `dbshell` client
 
 ```
 test-django-zodb git:main
@@ -37,7 +37,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
 
-- `dumpzodb` management command
+### `dumpzodb` management command
 
 ```
 test-django-zodb git:main
@@ -66,7 +66,7 @@ test-django-zodb git:main
         … 
 ```
 
-- `migrate` management command (show migrations only)
+### `migrate` management command (show migrations only)
 
 ```
 test-django-zodb git:main  
@@ -115,7 +115,7 @@ Closing cursor
 …
 ```
 
-- `runzeo` management command
+### `runzeo` management command
 
 ```
 python manage.py runzeo
