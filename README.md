@@ -25,10 +25,6 @@ django-admin startproject backend . --template \
     https://github.com/aclark4life/django-zodb-project/archive/refs/heads/main.zip
 ```
 
-## Reference
-
-- https://medium.com/django-unleashed/how-does-django-manage-db-connections-4c1a009cec91
-
 ## Supported features
 
 ### Management commands
@@ -131,3 +127,7 @@ test-django-zodb git:main
         /data/tables/django_content_type/1: ('admin', 'logentry')
         … 
 ```
+
+## Reference
+
+- https://medium.com/django-unleashed/how-does-django-manage-db-connections-4c1a009cec91
