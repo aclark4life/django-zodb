@@ -25,10 +25,9 @@ django-admin startproject backend . --template=https://github.com/aclark4life/dj
 
 ### Management commands
 
-#### `python manage.py migrate` management command (show migrations only)
+#### `python manage.py migrate` (show only)
 
 ```
-test-django-zodb git:main  
 (test-django-zodb) ❯ python manage.py migrate
 Setting autocommit to True
 Closing cursor
