@@ -10,7 +10,7 @@ Inspired by https://github.com/osantana-archive/django-zodb
 
 ## Project setup
 
-Assuming you've cloned this repository:
+Clone this repository and create a virtual environment. Then install the dependencies and create a Django project.
 
 ```
 pip install .
