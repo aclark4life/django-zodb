@@ -13,7 +13,9 @@ class Command(BaseCommand):
         # Start a ZEO server with dynamic address and in-memory storage
         address, stop = ZEO.server()
 
-        self.stdout.write(self.style.SUCCESS(f"Starting ZEO server on {address[0]}:{address[1]}..."))
+        self.stdout.write(
+            self.style.SUCCESS(f"Starting ZEO server on {address[0]}:{address[1]}...")
+        )
 
         # Create a ZEO client connection
         client_storage = ZEO.client(address)
@@ -30,8 +32,11 @@ class Command(BaseCommand):
             # Keep the server running in the foreground
             while True:
                 # Optional: Print a message or status every few seconds
-                self.stdout.write(self.style.SUCCESS("ZEO server is running... Press Ctrl+C to stop."))
+                self.stdout.write(
+                    self.style.SUCCESS("ZEO server is running... Press Ctrl+C to stop.")
+                )
                 import time
+
                 time.sleep(10)  # Adjust the sleep duration as needed
         except KeyboardInterrupt:
             self.stdout.write(self.style.WARNING("ZEO server stopped."))

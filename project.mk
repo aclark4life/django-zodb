@@ -15,3 +15,7 @@ clean:
 	rm -rvf backend/
 	rm -vf manage.py
 	rm Data.fs.*
+
+
+dump:
+	python manage.py dumpzodb
