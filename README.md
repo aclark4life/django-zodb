@@ -22,7 +22,7 @@ Install the dependencies and create a Django project.
 ```
 pip install .
 django-admin startproject backend . --template \
-  https://github.com/aclark4life/django-zodb-project/archive/refs/heads/main.zip
+    https://github.com/aclark4life/django-zodb-project/archive/refs/heads/main.zip
 ```
 
 ## Reference
